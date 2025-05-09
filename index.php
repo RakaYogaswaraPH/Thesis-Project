@@ -17,54 +17,15 @@
 <body class="font-[fredoka] text-gray-800 overflow-x-hidden">
 
     <!-- Navbar -->
-    <nav class="hidden md:block sticky top-0 bg-white shadow-md z-50">
-        <div class="container mx-auto px-4 py-2 flex items-center justify-between">
-            <div class="flex items-center group">
-                <img src="images/Logo.png" alt="PPMH Logo" class="h-16 w-16 transition-transform duration-300 group-hover:scale-110">
-                <div class="ml-2">
-                    <span class="text-2xl font-bold text-primary-500 underline">PPMH</span>
-                    <div class="text-xs text-primary-400">Taking learning fun</div>
-                </div>
-            </div>
-            <div class="hidden md:flex space-x-8">
-                <a href="#" class="text-gray-700 hover:text-primary-500 font-medium transition-colors duration-300 relative after:absolute after:bottom-0 after:left-0 after:bg-primary-500 after:h-0.5 after:w-0 hover:after:w-full after:transition-all after:duration-300">Beranda</a>
-                <a href="aboutUs.php" class="text-gray-700 hover:text-primary-500 font-medium transition-colors duration-300 relative after:absolute after:bottom-0 after:left-0 after:bg-primary-500 after:h-0.5 after:w-0 hover:after:w-full after:transition-all after:duration-300">Tentang Kami</a>
-                <a href="#" class="text-gray-700 hover:text-primary-500 font-medium transition-colors duration-300 relative after:absolute after:bottom-0 after:left-0 after:bg-primary-500 after:h-0.5 after:w-0 hover:after:w-full after:transition-all after:duration-300">Tes Kecerdasan</a>
-                <a href="#" class="text-gray-700 hover:text-primary-500 font-medium transition-colors duration-300 relative after:absolute after:bottom-0 after:left-0 after:bg-primary-500 after:h-0.5 after:w-0 hover:after:w-full after:transition-all after:duration-300">Tipe Kecerdasan</a>
-            </div>
-            <button class="bg-secondary-500 hover:bg-secondary-600 text-white font-medium py-2 px-6 rounded-full transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
-                Masuk
-            </button>
-        </div>
-    </nav>
+    <?php include 'components/navbar.php'; ?>
     <!-- End of Navbar -->
 
     <!-- Mobile Bottom Navigation -->
-    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-inner flex justify-around items-center py-3 md:hidden z-50">
-        <a href="#" class="flex flex-col items-center text-primary-500 text-xs">
-            <i class="fas fa-home text-lg"></i>
-            <span>Beranda</span>
-        </a>
-        <a href="aboutUs.php" class="flex flex-col items-center text-gray-500 text-xs hover:text-primary-500 transition-colors duration-300">
-            <i class="fas fa-users text-lg"></i>
-            <span>Tentang</span>
-        </a>
-        <a href="#" class="flex flex-col items-center text-gray-500 text-xs hover:text-primary-500 transition-colors duration-300">
-            <i class="fas fa-lightbulb text-lg"></i>
-            <span>Tes IQ</span>
-        </a>
-        <a href="#" class="flex flex-col items-center text-gray-500 text-xs hover:text-primary-500 transition-colors duration-300">
-            <i class="fas fa-brain text-lg"></i>
-            <span>Kecerdasan</span>
-        </a>
-        <a href="#" class="flex flex-col items-center text-gray-500 text-xs hover:text-secondary-500 transition-colors duration-300">
-            <i class="fas fa-sign-in-alt text-lg"></i>
-            <span>Masuk</span>
-        </a>
-    </nav>
+    <?php include 'components/mobileNavbar.php'; ?>
+    <!-- End Of Mobile Navbar -->
 
     <!-- Hero Section -->
-    <div class="relative bg-hero bg-cover bg-no-repeat bg-center min-h-screen flex items-center pt-20 pb-20 md:pb-0 md:pt-0" style="background-image: url('images/Hero_background.png');">
+    <div class="relative bg-hero bg-cover bg-no-repeat bg-center min-h-screen flex items-center pt-20 pb-20 md:pb-0 md:pt-0" style="background-image: url('images/Hero_background.png');" id="homepage">
         <div class="absolute inset-0 bg-gradient-to-r from-white/60 to-white/30"></div>
         <div class="container mx-auto px-6 sm:px-8 lg:px-16 relative z-10">
             <div class="flex flex-col md:flex-row items-center">
@@ -312,121 +273,11 @@
     </section>
 
     <!-- Footer -->
-    <footer class="bg-white py-16 border-t border-gray-200">
-        <div class="container mx-auto px-6 sm:px-8 lg:px-16 grid grid-cols-1 md:grid-cols-3 gap-12">
-            <!-- Description -->
-            <div>
-                <div class="flex items-center mb-6">
-                    <img src="images/Logo.png" alt="Logo PPMH" class="h-12 w-12">
-                    <div class="ml-3">
-                        <h3 class="text-lg font-bold text-primary-500">POS PAUD MAWAR HIDAYAH</h3>
-                    </div>
-                </div>
-                <p class="text-gray-600 text-sm leading-relaxed">
-                    Lembaga pendidikan anak usia dini yang memberikan pelayanan pada anak usia dini secara menyeluruh yang mencakup layanan gizi, kesehatan, pendidikan, pengasuhan, dan perlindungan, untuk mengoptimalkan semua aspek perkembangan anak.
-                </p>
-                <div class="mt-6 flex space-x-4">
-                    <a href="#" class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-gray-600 hover:bg-primary-500 hover:text-white transition-all duration-300">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-                    <a href="#" class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-gray-600 hover:bg-primary-500 hover:text-white transition-all duration-300">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                    <a href="#" class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-gray-600 hover:bg-primary-500 hover:text-white transition-all duration-300">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                    <a href="#" class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-gray-600 hover:bg-primary-500 hover:text-white transition-all duration-300">
-                        <i class="fab fa-tiktok"></i>
-                    </a>
-                </div>
-            </div>
-
-            <!-- Navigasi -->
-            <div>
-                <h4 class="font-bold text-gray-800 mb-6 text-xl">POS PAUD MAWAR HIDAYAH</h4>
-                <ul class="space-y-4">
-                    <li>
-                        <a href="#" class="text-gray-600 hover:text-primary-500 transition-colors duration-300 flex items-center">
-                            <i class="fas fa-chevron-right text-xs mr-2 text-primary-500"></i>
-                            Tentang Kami
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="text-gray-600 hover:text-primary-500 transition-colors duration-300 flex items-center">
-                            <i class="fas fa-chevron-right text-xs mr-2 text-primary-500"></i>
-                            Tes Kecerdasan
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="text-gray-600 hover:text-primary-500 transition-colors duration-300 flex items-center">
-                            <i class="fas fa-chevron-right text-xs mr-2 text-primary-500"></i>
-                            Tipe Kecerdasan
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="text-gray-600 hover:text-primary-500 transition-colors duration-300 flex items-center">
-                            <i class="fas fa-chevron-right text-xs mr-2 text-primary-500"></i>
-                            Kebijakan Privasi
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="text-gray-600 hover:text-primary-500 transition-colors duration-300 flex items-center">
-                            <i class="fas fa-chevron-right text-xs mr-2 text-primary-500"></i>
-                            Syarat & Ketentuan
-                        </a>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- Kontak -->
-            <div>
-                <h4 class="font-bold text-gray-800 mb-6 text-xl">Ikuti Kami</h4>
-                <ul class="space-y-4">
-                    <li class="flex items-center group hover:translate-x-2 transition-all duration-300">
-                        <div class="w-10 h-10 rounded-full bg-secondary-500/10 flex items-center justify-center text-secondary-500 group-hover:bg-secondary-500 group-hover:text-white transition-all duration-300 shrink-0">
-                            <i class="fab fa-facebook"></i>
-                        </div>
-                        <span class="ml-3 text-gray-700">Facebook</span>
-                    </li>
-                    <li class="flex items-center group hover:translate-x-2 transition-all duration-300">
-                        <div class="w-10 h-10 rounded-full bg-secondary-500/10 flex items-center justify-center text-secondary-500 group-hover:bg-secondary-500 group-hover:text-white transition-all duration-300 shrink-0">
-                            <i class="fab fa-instagram"></i>
-                        </div>
-                        <span class="ml-3 text-gray-700">Instagram</span>
-                    </li>
-                    <li class="flex items-center group hover:translate-x-2 transition-all duration-300">
-                        <div class="w-10 h-10 rounded-full bg-secondary-500/10 flex items-center justify-center text-secondary-500 group-hover:bg-secondary-500 group-hover:text-white transition-all duration-300 shrink-0">
-                            <i class="fab fa-twitter"></i>
-                        </div>
-                        <span class="ml-3 text-gray-700">Twitter</span>
-                    </li>
-                    <li class="flex items-center group hover:translate-x-2 transition-all duration-300">
-                        <div class="w-10 h-10 rounded-full bg-secondary-500/10 flex items-center justify-center text-secondary-500 group-hover:bg-secondary-500 group-hover:text-white transition-all duration-300 shrink-0">
-                            <i class="fab fa-tiktok"></i>
-                        </div>
-                        <span class="ml-3 text-gray-700">TikTok</span>
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- Footer Bottom -->
-        <div class="container mx-auto px-6 sm:px-8 lg:px-16 mt-16 pt-8 border-t border-gray-100">
-            <div class="flex flex-col md:flex-row justify-between items-center">
-                <p class="text-sm text-gray-500 mb-4 md:mb-0">© POS PAUD MAWAR HIDAYAH 2025. Semua hak dilindungi.</p>
-                <div class="flex space-x-6">
-                    <a href="#" class="text-sm text-gray-500 hover:text-primary-500 transition-colors duration-300">Kebijakan Privasi</a>
-                    <a href="#" class="text-sm text-gray-500 hover:text-primary-500 transition-colors duration-300">Syarat & Ketentuan</a>
-                </div>
-            </div>
-        </div>
-    </footer>
+    <?php include 'components/footer.php'; ?>
     <!-- End Of Footer -->
 
     <!-- Back To Top -->
-    <button id="backToTopBtn" title="Kembali ke atas" class="fixed bottom-20 md:bottom-6 right-6 bg-secondary-500 hover:bg-secondary-600 text-white w-12 h-12 flex items-center justify-center rounded-full shadow-lg transition-all duration-500 opacity-0 scale-75 invisible z-50">
-        <i class="fas fa-arrow-up"></i>
-    </button>
+    <?php include 'components/BacktoTop.php'; ?>
     <!-- End Of Back To Top -->
 
 </body>

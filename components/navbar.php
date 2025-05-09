@@ -1,21 +1,48 @@
-<nav class="sticky top-0 bg-white shadow-md z-50">
-        <div class="container mx-auto px-4 py-2 flex items-center justify-between">
-            <div class="flex items-center">
-                <img src="images/Logo.png" alt="PPMH Logo" class="h-16 w-16">
-                <div class="ml-2">
-                    <span class="text-2xl font-bold text-teal-500 underline">PPMH</span>
-                    <div class="text-xs text-teal-400">Taking learning fun</div>
-                </div>
-            </div>
-            <div class="hidden md:flex space-x-8">
-                <a href="#" class="text-gray-700 hover:text-teal-500 font-medium">Beranda</a>
-                <a href="aboutUs.php" class="text-gray-700 hover:text-teal-500 font-medium">Tentang Kami</a>
-                <a href="#" class="text-gray-700 hover:text-teal-500 font-medium">Tes Kecerdasan</a>
-                <a href="#" class="text-gray-700 hover:text-teal-500 font-medium">Tipe Kecerdasan</a>
-            </div>
+<?php
+$currentPage = basename($_SERVER['PHP_SELF']);
+?>
 
-            <button class="bg-orange-400 hover:bg-orange-500 text-white font-medium py-2 px-6 rounded-full transition-all">
-                Masuk
-            </button>
+<nav class="hidden md:block sticky top-0 bg-white shadow-md z-50">
+    <div class="container mx-auto px-6 py-3 flex items-center justify-between">
+        <!-- Logo -->
+        <div class="flex items-center group">
+            <img src="images/Logo.png" alt="PPMH Logo" class="h-16 w-16 transition-transform duration-300 group-hover:scale-110">
+            <div class="ml-3">
+                <span class="text-2xl font-bold text-primary-500 underline leading-none">PPMH</span>
+                <div class="text-base text-primary-400">Taking learning fun</div>
+            </div>
         </div>
-    </nav>
+
+        <!-- Navigasi -->
+        <div class="hidden md:flex space-x-8 text-lg">
+            <!-- Beranda -->
+            <a href="<?php echo $currentPage == 'index.php' ? '#homepage' : 'index.php#homepage'; ?>"
+                class="text-gray-700 hover:text-primary-500 font-semibold transition-colors duration-300 relative after:absolute after:bottom-0 after:left-0 after:bg-primary-500 after:h-0.5 after:w-0 hover:after:w-full after:transition-all after:duration-300">
+                Beranda
+            </a>
+
+            <!-- Tentang Kami -->
+            <a href="<?php echo $currentPage == 'aboutUs.php' ? '#aboutUs' : 'aboutUs.php#aboutUs'; ?>"
+                class="text-gray-700 hover:text-primary-500 font-semibold transition-colors duration-300 relative after:absolute after:bottom-0 after:left-0 after:bg-primary-500 after:h-0.5 after:w-0 hover:after:w-full after:transition-all after:duration-300">
+                Tentang Kami
+            </a>
+
+            <!-- Tes Kecerdasan -->
+            <a href="<?php echo $currentPage == 'index.php' ? '#test' : 'index.php#test'; ?>"
+                class="text-gray-700 hover:text-primary-500 font-semibold transition-colors duration-300 relative after:absolute after:bottom-0 after:left-0 after:bg-primary-500 after:h-0.5 after:w-0 hover:after:w-full after:transition-all after:duration-300">
+                Tes Kecerdasan
+            </a>
+
+            <!-- Tipe Kecerdasan -->
+            <a href="<?php echo $currentPage == 'index.php' ? '#type' : 'index.php#type'; ?>"
+                class="text-gray-700 hover:text-primary-500 font-semibold transition-colors duration-300 relative after:absolute after:bottom-0 after:left-0 after:bg-primary-500 after:h-0.5 after:w-0 hover:after:w-full after:transition-all after:duration-300">
+                Tipe Kecerdasan
+            </a>
+        </div>
+
+        <!-- Tombol Masuk -->
+        <button class="bg-secondary-500 hover:bg-secondary-600 text-white text-lg font-semibold py-2.5 px-7 rounded-full transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+            Masuk
+        </button>
+    </div>
+</nav>

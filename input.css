@@ -2,31 +2,35 @@
 
 @theme {
   /* === Primary Colors === */
-  --color-primary-50: #E6F7F6;
-  --color-primary-100: #CCEFED;
-  --color-primary-200: #99E0DB;
-  --color-primary-300: #66D0C9;
-  --color-primary-400: #33C1B7;
-  --color-primary-500: #00B1A5;
-  --color-primary-600: #008E85;
-  --color-primary-700: #006A64;
+  --color-primary-50: #e6f7f6;
+  --color-primary-100: #ccefed;
+  --color-primary-200: #99e0db;
+  --color-primary-300: #66d0c9;
+  --color-primary-400: #33c1b7;
+  --color-primary-500: #00b1a5;
+  --color-primary-600: #008e85;
+  --color-primary-700: #006a64;
   --color-primary-800: #004742;
   --color-primary-900: #002321;
 
   /* === Secondary Colors === */
-  --color-secondary-50: #FFF2E6;
-  --color-secondary-100: #FFE5CC;
-  --color-secondary-200: #FFCC99;
-  --color-secondary-300: #FFB266;
-  --color-secondary-400: #FF9933;
-  --color-secondary-500: #FF8000;
-  --color-secondary-600: #CC6600;
-  --color-secondary-700: #994D00;
+  --color-secondary-50: #fff2e6;
+  --color-secondary-100: #ffe5cc;
+  --color-secondary-200: #ffcc99;
+  --color-secondary-300: #ffb266;
+  --color-secondary-400: #ff9933;
+  --color-secondary-500: #ff8000;
+  --color-secondary-600: #cc6600;
+  --color-secondary-700: #994d00;
   --color-secondary-800: #663300;
-  --color-secondary-900: #331A00;
+  --color-secondary-900: #331a00;
 
   /* === Animations === */
   --animation-float: float 3s ease-in-out infinite;
   --animation-fade-in: fadeIn 0.5s ease-in forwards;
   --animation-slide-up: slideUp 0.5s ease-out forwards;
+}
+
+html {
+  scroll-behavior: smooth;
 }
