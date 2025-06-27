@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PPMH | Taking Learning Fun</title>
 
-    <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="images/Logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="./src/styles/style.css">
+    <link rel="icon" href="./src/images/Logo.png" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -43,7 +43,7 @@
                     <div class="relative">
                         <div class="absolute -top-6 -left-6 w-24 h-24 bg-primary-500/20 rounded-full animate-pulse"></div>
                         <div class="absolute -bottom-6 -right-6 w-32 h-32 bg-secondary-500/20 rounded-full animate-pulse delay-700"></div>
-                        <img src="images/Hero_image.png" alt="Anak Belajar" class="w-full h-full object-cover rounded-2xl transform hover:scale-[1.02] transition-all duration-500" />
+                        <img src="./src/images/Hero_image.png" alt="Anak Belajar" class="w-full h-full object-cover rounded-2xl transform hover:scale-[1.02] transition-all duration-500" />
                     </div>
                 </div>
             </div>
@@ -69,7 +69,7 @@
                 <div class="md:w-1/2 flex justify-center" data-aos="fade-left">
                     <div class="relative">
                         <div class="absolute -top-4 -right-4 w-20 h-20 rounded-full bg-primary-500/10 animate-float"></div>
-                        <img src="images/Section1.png" alt="Gambar" class="w-full max-w-md rounded-2xl hover:shadow-2xl transition-all duration-500">
+                        <img src="./src/images/Section1.png" alt="Gambar" class="w-full max-w-md rounded-2xl hover:shadow-2xl transition-all duration-500">
                         <div class="absolute -bottom-4 -left-4 w-16 h-16 rounded-full bg-secondary-500/10 animate-float" style="animation-delay: 1s;"></div>
                     </div>
                 </div>
@@ -112,7 +112,7 @@
                 <div class="md:w-1/2 flex justify-center" data-aos="fade-right">
                     <div class="relative">
                         <div class="absolute -top-6 -left-6 w-24 h-24 bg-secondary-500/20 rounded-full animate-pulse"></div>
-                        <img src="images/Section2.png" alt="Gambar" class="w-full max-w-md rounded-2xl hover:shadow-2xl transition-all duration-500">
+                        <img src="./src/images/Section2.png" alt="Gambar" class="w-full max-w-md rounded-2xl hover:shadow-2xl transition-all duration-500">
                         <div class="absolute -bottom-6 -right-6 w-20 h-20 bg-primary-500/20 rounded-full animate-pulse delay-700"></div>
                     </div>
                 </div>
@@ -160,7 +160,7 @@
                         <!-- FAQ Item 2 -->
                         <div class="border rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300">
                             <button class="w-full flex justify-between items-center p-5 bg-secondary-500 text-white font-medium faq-toggle">
-                                <span>Apakah anak perlu persiapan sebelum mengikuti tes?</span>
+                                <span>Apakah anak perlu persiapan untuk mengikuti tes?</span>
                                 <div class="icon-plus block">
                                     <!-- Icon plus -->
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -241,7 +241,7 @@
                 <div class="md:w-1/2 flex justify-center items-center" data-aos="fade-left">
                     <div class="relative overflow-hidden">
                         <div class="absolute -top-0 -left-0 w-24 h-24 bg-primary-500/10 rounded-full animate-pulse"></div>
-                        <img src="images/FAQ.png" alt="Gambar" class="w-full h-full object-cover rounded-2xl shadow-xl transform hover:scale-[1.02] transition-all duration-500">
+                        <img src="./src/images/FAQ.png" alt="Gambar" class="w-full h-full object-cover rounded-2xl shadow-xl transform hover:scale-[1.02] transition-all duration-500">
                         <div class="absolute -bottom-0 -right-0 w-20 h-20 bg-secondary-500/10 rounded-full animate-pulse" style="animation-delay: 1.5s;"></div>
                     </div>
                 </div>
@@ -256,7 +256,7 @@
             <div class="flex flex-col items-center justify-center text-center max-w-3xl mx-auto">
                 <div class="inline-block bg-secondary-500/10 text-secondary-600 font-bold text-sm px-4 py-2 rounded-full mb-6">MULAI SEKARANG</div>
                 <div class="relative w-full mx-auto mb-10">
-                    <img src="images/CTA.png" alt="Anak-anak Belajar" class="mx-auto rounded-2xl max-w-xl w-full">
+                    <img src="./src/images/CTA.png" alt="Anak-anak Belajar" class="mx-auto rounded-2xl max-w-xl w-full">
                 </div>
 
                 <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-6">Penasaran Tentang Tumbuh Kembang Si Kecil?</h2>
@@ -283,4 +283,4 @@
 </body>
 
 </html>
-<script src="js/script.js"></script>
+<script src="./src/js/script.js"></script>

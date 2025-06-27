@@ -16,7 +16,12 @@ $currentPage = basename($_SERVER['PHP_SELF']);
         <i class="fas fa-users text-lg"></i>
         <span>Tentang</span>
     </a>
-
+    <!-- Kecerdasan -->
+    <a href="<?php echo $currentPage == 'intelligenceType.php' ? '#type' : 'intelligenceType.php#type'; ?>"
+        class="flex flex-col items-center <?php echo $currentPage == 'intelligenceType.php' ? 'text-primary-500' : 'text-gray-500'; ?> text-xs hover:text-primary-500 transition-colors duration-300">
+        <i class="fas fa-brain text-lg"></i>
+        <span>Kecerdasan</span>
+    </a>
     <!-- Tes IQ -->
     <a href="<?php echo $currentPage == 'index.php' ? '#tes' : 'index.php#tes'; ?>"
         class="flex flex-col items-center <?php echo $currentPage == 'index.php' ? '' : 'text-gray-500'; ?> text-xs hover:text-primary-500 transition-colors duration-300">
@@ -24,16 +29,9 @@ $currentPage = basename($_SERVER['PHP_SELF']);
         <span>Tes IQ</span>
     </a>
 
-    <!-- Kecerdasan -->
-    <a href="<?php echo $currentPage == 'index.php' ? '#tipe' : 'index.php#tipe'; ?>"
-        class="flex flex-col items-center <?php echo $currentPage == 'index.php' ? '' : 'text-gray-500'; ?> text-xs hover:text-primary-500 transition-colors duration-300">
-        <i class="fas fa-brain text-lg"></i>
-        <span>Kecerdasan</span>
-    </a>
-
     <!-- Masuk -->
     <a href="login.php"
-        class="flex flex-col items-center text-gray-500 text-xs hover:text-secondary-500 transition-colors duration-300">
+        class="flex flex-col items-center <?php echo $currentPage == 'login.php' ? 'text-secondary-500' : 'text-gray-500'; ?> text-xs hover:text-secondary-500 transition-colors duration-300">
         <i class="fas fa-sign-in-alt text-lg"></i>
         <span>Masuk</span>
     </a>

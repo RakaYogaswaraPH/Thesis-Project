@@ -45,3 +45,28 @@ faqToggles.forEach(toggle => {
         }
     });
 });
+
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    // Intelligence tab switching
+    const tabs = document.querySelectorAll('.intelligence-tab');
+    const contents = document.querySelectorAll('.intelligence-content');
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            // Remove active class from all tabs
+            tabs.forEach(t => t.classList.remove('active-tab'));
+
+            // Add active class to clicked tab
+            tab.classList.add('active-tab');
+
+            // Hide all content
+            contents.forEach(content => content.classList.remove('active'));
+
+            // Show relevant content
+            const targetId = `${tab.dataset.target}-content`;
+            document.getElementById(targetId).classList.add('active');
+        });
+    });
+});

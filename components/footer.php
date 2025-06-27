@@ -3,7 +3,7 @@
         <!-- Description -->
         <div>
             <div class="flex items-center mb-6">
-                <img src="images/Logo.png" alt="Logo PPMH" class="h-12 w-12">
+                <img src="./src/images/Logo.png" alt="Logo PPMH" class="h-12 w-12">
                 <div class="ml-3">
                     <h3 class="text-lg font-bold text-primary-500">POS PAUD MAWAR HIDAYAH</h3>
                 </div>

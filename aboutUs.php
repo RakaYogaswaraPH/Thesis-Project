@@ -4,10 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PPMH | Taking Learning Fun</title>
+    <title>PPMH | Tentang Kami</title>
 
-    <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="images/Logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="./src/styles/style.css">
+    <link rel="icon" href="./src/images/Logo.png" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -24,29 +24,33 @@
     <!-- End Of Mobile Navbar -->
 
     <!-- Hero Section -->
-    <section class="relative bg-cover bg-center min-h-[70vh] flex items-center pt-20 pb-20" style="background-image: url('images/background.png');" id="aboutUs">
-        <div class="absolute inset-0 bg-gradient-to-t from-white/50 to-white/20"></div>
-        <div class="container mx-auto px-6 sm:px-8 lg:px-16 relative z-10">
-            <div class="flex flex-col items-center text-center">
-                <div class="inline-block bg-primary-500/10 text-primary-600 font-bold text-lg px-6 py-2 rounded-full mb-6">TENTANG KAMI</div>
-
-                <div class="relative mb-6 group">
-                    <div class="absolute -inset-4 bg-secondary-500/10 rounded-full blur-xl opacity-70 group-hover:opacity-100 transition duration-500"></div>
-                    <img src="images/Logos.png" alt="Logo PPMH" class="w-40 h-40 md:w-48 md:h-48 relative z-10">
-                </div>
-
-                <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 leading-tight">POS PAUD MAWAR HIDAYAH <span class="text-primary-500">(PPMH)</span></h1>
-                <p class="text-lg md:text-xl text-gray-700 max-w-2xl mx-auto font-medium">
-                    Mewujudkan Pribadi Yang <span class="text-primary-500 font-semibold">Taqwa</span>,
-                    <span class="text-secondary-500 font-semibold">Cendekia</span>, Dan
-                    <span class="text-primary-500 font-semibold">Berbudaya</span>
-                </p>
+    <section class="w-full py-24 flex flex-col items-center justify-center text-center px-4 relative overflow-hidden" id="aboutUs">
+        <div class="absolute inset-0 w-full h-full overflow-hidden">
+            <img src="./src/images/background.png" alt="Background" class="w-full h-auto min-h-full object-cover object-center" />
+            <div class="absolute inset-0 bg-gradient-to-t from-white/50 to-white/20"></div>
+        </div>
+        <div class="relative z-10">
+            <div class="inline-block bg-primary-500/10 text-primary-600 font-bold text-2xl px-6 py-2 rounded-full mb-6">TENTANG KAMI</div>
+            <div class="relative mb-6 group flex justify-center">
+                <div class="absolute -inset-4 bg-secondary-500/10 rounded-full blur-xl opacity-70 group-hover:opacity-100 transition duration-500"></div>
+                <img src="./src/images/Logos.png" alt="Logo PPMH" class="w-40 h-40 md:w-48 md:h-48 relative z-10 mx-auto">
             </div>
+            <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 leading-tight">POS PAUD MAWAR HIDAYAH <span class="text-primary-500">(PPMH)</span></h1>
+            <p class="text-lg md:text-xl text-gray-700 max-w-2xl mx-auto font-medium">
+                Mewujudkan Pribadi Yang <span class="text-primary-500 font-semibold">Taqwa</span>,
+                <span class="text-secondary-500 font-semibold">Cendekia</span>, Dan
+                <span class="text-primary-500 font-semibold">Berbudaya</span>
+            </p>
+        </div>
+        <div class="absolute bottom-5 left-0 right-0 flex justify-center animate-bounce">
+            <a href="#about" class="text-primary-500 bg-white bg-opacity-70 rounded-full p-2 shadow-md">
+                <i class="fas fa-chevron-down text-2xl"></i>
+            </a>
         </div>
     </section>
 
     <!-- Transitional Title Section -->
-    <section class="py-12 bg-white">
+    <section class="py-12 bg-white" id="about">
         <div class="container mx-auto px-6 sm:px-8 lg:px-16">
             <div class="text-center">
                 <h3 class="text-2xl md:text-3xl font-bold text-gray-800">
@@ -101,7 +105,7 @@
                 <div class="md:w-1/2 flex justify-center md:justify-end" data-aos="fade-left">
                     <div class="relative">
                         <div class="absolute -top-6 -right-6 w-24 h-24 bg-secondary-500/20 rounded-full animate-pulse"></div>
-                        <img src="images/about.png" alt="Tentang Kami" class="w-full max-w-md rounded-2xl hover:shadow-2xl transition-all duration-500">
+                        <img src="./src/images/about.png" alt="Tentang Kami" class="w-full max-w-md rounded-2xl hover:shadow-2xl transition-all duration-500">
                         <div class="absolute -bottom-6 -left-6 w-20 h-20 bg-primary-500/20 rounded-full animate-pulse delay-700"></div>
                     </div>
                 </div>
@@ -150,7 +154,7 @@
                 <div class="md:w-1/2" data-aos="fade-right">
                     <div class="relative">
                         <div class="absolute -top-6 -left-6 w-24 h-24 bg-primary-500/20 rounded-full animate-pulse"></div>
-                        <img src="images/images.png" alt="Kolase Kegiatan" class="w-full h-auto rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500">
+                        <img src="./src/images/images.png" alt="Kolase Kegiatan" class="w-full h-auto rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500">
                         <div class="absolute -bottom-6 -right-6 w-20 h-20 bg-secondary-500/20 rounded-full animate-pulse delay-700"></div>
                     </div>
                 </div>
