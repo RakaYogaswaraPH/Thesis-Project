@@ -37,13 +37,13 @@ $currentPage = basename($_SERVER['PHP_SELF']);
         <!-- Tombol Autentikasi -->
         <div class="flex space-x-3">
             <!-- Tombol Masuk -->
-            <button class="bg-secondary-500 hover:bg-secondary-600 text-white text-lg font-semibold py-2.5 px-5 rounded-full transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
-                Masuk
-            </button>
+            <a href="login.php"><button class="bg-secondary-500 hover:bg-secondary-600 text-white text-lg font-semibold py-2.5 px-5 rounded-full transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+                    Masuk
+                </button></a>
             <!-- Tombol Daftar -->
-            <button class="bg-primary-500 hover:bg-primary-600 text-white text-lg font-semibold py-2.5 px-5 rounded-full transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
-                Daftar
-            </button>
+            <a href="register.php"><button class="bg-primary-500 hover:bg-primary-600 text-white text-lg font-semibold py-2.5 px-5 rounded-full transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+                    Daftar
+                </button></a>
         </div>
     </div>
 </nav>
