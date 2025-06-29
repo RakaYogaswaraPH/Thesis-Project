@@ -9,7 +9,7 @@ include './config/config.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PPMH | Tentang Kami</title>
+    <title>PPMH | Masuk Akun</title>
 
     <link rel="stylesheet" href="./src/styles/style.css">
     <link rel="icon" href="./src/images/Logo.png" type="image/x-icon">

@@ -1,11 +1,11 @@
 <?php
 session_start();
-if (!isset($_SESSION['pengguna'])) {
+if (!isset($_SESSION['admin'])) {
     header("Location: ../../login.php");
     exit;
 }
 
-$pengguna = $_SESSION['pengguna'];
+$pengguna = $_SESSION['admin'];
 ?>
 
 <!DOCTYPE html>
@@ -17,7 +17,7 @@ $pengguna = $_SESSION['pengguna'];
 </head>
 
 <body>
-    <h1>Selamat datang, <?= htmlspecialchars($pengguna['nama_anak']) ?>!</h1>
+    <h1>Selamat datang, <?= htmlspecialchars($pengguna['nama_admin']) ?>!</h1>
     <p>Email: <?= htmlspecialchars($pengguna['email']) ?></p>
     <p>Role: <?= htmlspecialchars($pengguna['role']) ?></p>
 

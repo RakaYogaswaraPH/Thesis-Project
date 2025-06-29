@@ -42,17 +42,56 @@ include './config/config.php';
                 </div>
 
                 <!-- Form -->
-                <form class="space-y-4" id="registerForm" method="POST" action="register.php">
-                    <!-- Nama Lengkap -->
+                <form class="space-y-4" id="registerForm" method="POST" action="">
+                    <!-- Nama Anak -->
                     <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Nama Lengkap</label>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Nama Anak</label>
                         <div class="relative">
                             <input
-                                type="text"
-                                class="w-full px-4 py-3 pl-12 border-2 border-gray-300 rounded-xl focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
-                                placeholder="Masukkan nama lengkap" name="nama_pengguna"
-                                required>
-                            <i class="fas fa-user absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                                type="text" name="nama_anak"
+                                class="w-full px-4 py-3 pl-12 border-2 border-gray-300 rounded-xl"
+                                placeholder="Masukkan nama anak" required>
+                            <i class="fas fa-child absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                        </div>
+                    </div>
+
+                    <!-- Kelas -->
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Kelas</label>
+                        <div class="relative">
+                            <select name="kelas" required
+                                class="w-full px-4 py-3 pl-12 border-2 border-gray-300 rounded-xl focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20">
+                                <option value="" disabled selected>Pilih kelas</option>
+                                <option value="A1">Kelas A1</option>
+                                <option value="B1">Kelas B1</option>
+                                <option value="B2">Kelas B2</option>
+                            </select>
+                            <i class="fas fa-school absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                        </div>
+                    </div>
+
+                    <!-- Jenis Kelamin -->
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Jenis Kelamin</label>
+                        <div class="flex items-center space-x-4 px-2">
+                            <label class="flex items-center">
+                                <input type="radio" name="jenis_kelamin" value="Laki-Laki" required class="mr-2"> Laki-Laki
+                            </label>
+                            <label class="flex items-center">
+                                <input type="radio" name="jenis_kelamin" value="Perempuan" required class="mr-2"> Perempuan
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Nama Orang Tua -->
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Nama Orang Tua</label>
+                        <div class="relative">
+                            <input
+                                type="text" name="nama_orangtua"
+                                class="w-full px-4 py-3 pl-12 border-2 border-gray-300 rounded-xl"
+                                placeholder="Masukkan nama orang tua" required>
+                            <i class="fas fa-user-friends absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
                         </div>
                     </div>
 
@@ -61,10 +100,9 @@ include './config/config.php';
                         <label class="block text-sm font-semibold text-gray-700 mb-2">Email</label>
                         <div class="relative">
                             <input
-                                type="email"
-                                class="w-full px-4 py-3 pl-12 border-2 border-gray-300 rounded-xl focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
-                                placeholder="email@example.com" name="email"
-                                required>
+                                type="email" name="email"
+                                class="w-full px-4 py-3 pl-12 border-2 border-gray-300 rounded-xl"
+                                placeholder="email@example.com" required>
                             <i class="fas fa-envelope absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
                         </div>
                     </div>
@@ -74,10 +112,9 @@ include './config/config.php';
                         <label class="block text-sm font-semibold text-gray-700 mb-2">Nomor Telepon</label>
                         <div class="relative">
                             <input
-                                type="tel"
-                                class="w-full px-4 py-3 pl-12 border-2 border-gray-300 rounded-xl focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
-                                placeholder="08xxxxxxxxxx" name="nomor_telepon"
-                                required>
+                                type="tel" name="nomor_telepon"
+                                class="w-full px-4 py-3 pl-12 border-2 border-gray-300 rounded-xl"
+                                placeholder="08xxxxxxxxxx" required>
                             <i class="fas fa-phone absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
                         </div>
                     </div>
@@ -86,16 +123,12 @@ include './config/config.php';
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-2">Password</label>
                         <div class="relative">
-                            <input
-                                type="password"
-                                id="password"
-                                class="w-full px-4 py-3 pl-12 pr-12 border-2 border-gray-300 rounded-xl focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
-                                placeholder="••••••••" name="password"
-                                required>
+                            <input type="password" id="password" name="password"
+                                class="w-full px-4 py-3 pl-12 pr-12 border-2 border-gray-300 rounded-xl"
+                                placeholder="••••••••" required>
                             <i class="fas fa-lock absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-                            <button
-                                type="button"
-                                class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                            <button type="button"
+                                class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400"
                                 onclick="togglePassword('password', 'toggleIcon1')">
                                 <i class="fas fa-eye" id="toggleIcon1"></i>
                             </button>
@@ -106,46 +139,32 @@ include './config/config.php';
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-2">Konfirmasi Password</label>
                         <div class="relative">
-                            <input
-                                type="password"
-                                id="confirmPassword"
-                                class="w-full px-4 py-3 pl-12 pr-12 border-2 border-gray-300 rounded-xl focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
-                                placeholder="••••••••" name="re_password"
-                                required>
+                            <input type="password" id="confirmPassword" name="re_password"
+                                class="w-full px-4 py-3 pl-12 pr-12 border-2 border-gray-300 rounded-xl"
+                                placeholder="••••••••" required>
                             <i class="fas fa-lock absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-                            <button
-                                type="button"
-                                class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                            <button type="button"
+                                class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400"
                                 onclick="togglePassword('confirmPassword', 'toggleIcon2')">
                                 <i class="fas fa-eye" id="toggleIcon2"></i>
                             </button>
                         </div>
                     </div>
 
-                    <!-- Terms & Conditions -->
+                    <!-- Terms -->
                     <div class="flex items-start space-x-3">
-                        <input type="checkbox" id="terms" class="w-4 h-4 text-blue-500 border-gray-300 rounded focus:ring-blue-500 mt-1" required>
+                        <input type="checkbox" id="terms" class="w-4 h-4 mt-1" required>
                         <label for="terms" class="text-sm text-gray-600 leading-relaxed">
-                            Saya setuju dengan <a href="#" class="text-teal-500 hover:text-orange-600 font-semibold">Syarat & Ketentuan</a>
-                            dan <a href="#" class="text-teal-500 hover:text-orange-600 font-semibold">Kebijakan Privasi</a>
+                            Saya setuju dengan <a href="#" class="text-teal-500 font-semibold">Syarat & Ketentuan</a>
+                            dan <a href="#" class="text-teal-500 font-semibold">Kebijakan Privasi</a>
                         </label>
                     </div>
 
-                    <!-- Register Button -->
-                    <button
-                        type="submit" name="register"
-                        class="w-full bg-gradient-to-r from-orange-500 to-teal-600 text-white font-bold py-3 rounded-xl hover:from-teal-600 transform hover:scale-100 transition-all duration-300 flex items-center justify-center group">
-                        <span>Daftar Sekarang</span>
-                        <i class="fas fa-arrow-right ml-2 group-hover:ml-3 transition-all"></i>
+                    <!-- Submit -->
+                    <button type="submit" name="register"
+                        class="w-full bg-gradient-to-r from-orange-500 to-teal-600 text-white font-bold py-3 rounded-xl">
+                        Daftar Sekarang
                     </button>
-
-                    <!-- Login Link -->
-                    <div class="text-center mt-6">
-                        <p class="text-gray-600 text-sm">
-                            Sudah punya akun?
-                            <a href="login.php" class="text-blue-500 hover:text-blue-600 font-semibold">Masuk sekarang</a>
-                        </p>
-                    </div>
                 </form>
             </div>
 
