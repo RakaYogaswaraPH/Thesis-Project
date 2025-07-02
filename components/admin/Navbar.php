@@ -127,9 +127,9 @@ $currentPage = basename($_SERVER['PHP_SELF']);
 
                 <li class="items-center">
                     <a
-                        href="<?php echo $currentPage == 'settings.php' ? 'javascript:void(0);' : './settings.php'; ?>"
-                        class="text-xs uppercase py-3 font-bold block <?php echo $currentPage == 'settings.php' ? 'text-pink-500 hover:text-pink-600' : 'text-blueGray-700 hover:text-blueGray-500'; ?>">
-                        <i class="fas fa-tools mr-2 text-sm <?php echo $currentPage == 'settings.php' ? 'opacity-75' : 'text-blueGray-300'; ?>"></i> Pengaturan Akun
+                        href="<?php echo $currentPage == 'pengaturan_akun.php' ? 'javascript:void(0);' : './pengaturan_akun.php'; ?>"
+                        class="text-xs uppercase py-3 font-bold block <?php echo $currentPage == 'pengaturan_akun.php' ? 'text-pink-500 hover:text-pink-600' : 'text-blueGray-700 hover:text-blueGray-500'; ?>">
+                        <i class="fas fa-tools mr-2 text-sm <?php echo $currentPage == 'pengaturan_akun.php' ? 'opacity-75' : 'text-blueGray-300'; ?>"></i> Pengaturan Akun
                     </a>
                 </li>
             </ul>

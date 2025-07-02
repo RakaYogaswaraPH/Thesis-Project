@@ -32,13 +32,10 @@ $warna_tren = $persentase >= 0 ? 'text-emerald-500' : 'text-orange-500'
     <!-- Navbar -->
     <?php include '../../components/admin/Navbar.php'; ?>
     <!-- End Of Navbar -->
-
     <div class="relative md:ml-64 bg-gray-50">
-      <nav
-        class="absolute top-0 left-0 w-full z-10 bg-transparent md:flex-row md:flex-nowrap md:justify-start flex items-center p-4">
-        <div
-          class="w-full mx-autp items-center flex justify-between md:flex-nowrap flex-wrap md:px-10 px-4">
-          <a class="text-white text-sm uppercase hidden lg:inline-block font-semibold">Dashboard</a>
+      <nav class="absolute top-0 left-0 w-full z-10 bg-transparent md:flex-row md:flex-nowrap md:justify-start flex items-center p-4">
+        <div class="w-full mx-autp items-center flex justify-between md:flex-nowrap flex-wrap md:px-10 px-4">
+          <a class="text-white text-xl uppercase hidden lg:inline-block font-semibold">Dashboard</a>
           <!-- Navbar -->
           <?php include '../../components/admin/Profile.php'; ?>
           <!-- End Of Navbar -->
@@ -251,7 +248,7 @@ $warna_tren = $persentase >= 0 ? 'text-emerald-500' : 'text-orange-500'
               <div class="rounded-t mb-0 px-4 py-3 border-0">
                 <div class="flex flex-wrap items-center">
                   <div
-                    class="relative w-full px-4 max-w-full flex-grow flex-1">
+                    class="relative w-full px-2 max-w-full flex-grow flex-1">
                     <h3 class="font-semibold text-base text-gray-700">
                       Pengikut Tes
                     </h3>
@@ -399,7 +396,7 @@ $warna_tren = $persentase >= 0 ? 'text-emerald-500' : 'text-orange-500'
               <div class="rounded-t mb-0 px-4 py-3 border-0">
                 <div class="flex flex-wrap items-center">
                   <div
-                    class="relative w-full px-4 max-w-full flex-grow flex-1">
+                    class="relative w-full px-2 max-w-full flex-grow flex-1">
                     <h3 class="font-semibold text-base text-gray-700">
                       Ranking Tes IQ
                     </h3>
@@ -559,58 +556,11 @@ $warna_tren = $persentase >= 0 ? 'text-emerald-500' : 'text-orange-500'
             </div>
           </div>
         </div>
-        <footer class="block py-4">
-          <div class="container mx-auto px-4">
-            <hr class="mb-4 border-b-1 border-gray-200" />
-            <div
-              class="flex flex-wrap items-center md:justify-between justify-center">
-              <div class="w-full md:w-4/12 px-4">
-                <div
-                  class="text-sm text-gray-500 font-semibold py-1 text-center md:text-left">
-                  Copyright © <span id="get-current-year"></span>
-                  <a
-                    href="https://www.creative-tim.com?ref=njs-dashboard"
-                    class="text-gray-500 hover:text-gray-700 text-sm font-semibold py-1">
-                    Creative Tim
-                  </a>
-                </div>
-              </div>
-              <div class="w-full md:w-8/12 px-4">
-                <ul
-                  class="flex flex-wrap list-none md:justify-end justify-center">
-                  <li>
-                    <a
-                      href="https://www.creative-tim.com?ref=njs-dashboard"
-                      class="text-gray-600 hover:text-gray-800 text-sm font-semibold block py-1 px-3">
-                      Creative Tim
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="https://www.creative-tim.com/presentation?ref=njs-dashboard"
-                      class="text-gray-600 hover:text-gray-800 text-sm font-semibold block py-1 px-3">
-                      About Us
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="http://blog.creative-tim.com?ref=njs-dashboard"
-                      class="text-gray-600 hover:text-gray-800 text-sm font-semibold block py-1 px-3">
-                      Blog
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="https://github.com/creativetimofficial/notus-js/blob/main/LICENSE.md?ref=njs-dashboard"
-                      class="text-gray-600 hover:text-gray-800 text-sm font-semibold block py-1 px-3">
-                      MIT License
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </footer>
+
+        <!-- Navbar -->
+        <?php include '../../components/admin/footer.php'; ?>
+        <!-- End Of Navbar -->
+
       </div>
     </div>
   </div>

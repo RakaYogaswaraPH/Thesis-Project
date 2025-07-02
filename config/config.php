@@ -135,99 +135,92 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["register"])) {
 
 
 // Tangani aksi ubah dan hapus guru
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['aksi'])) {
-    $aksi = $_POST['aksi'];
+function tambahGuru($connect, $data)
+{
+    $email = mysqli_real_escape_string($connect, $data['email']);
+    $password = mysqli_real_escape_string($connect, $data['password']);
+    $nama = mysqli_real_escape_string($connect, $data['nama_guru']);
+    $jabatan = mysqli_real_escape_string($connect, $data['jabatan']);
+    $telepon = mysqli_real_escape_string($connect, $data['nomor_telepon']);
 
-    if ($aksi === 'edit_guru') {
-        $user_id = mysqli_real_escape_string($connect, $_POST['user_id']);
-        $nama_guru = mysqli_real_escape_string($connect, $_POST['nama_guru']);
-        $jabatan = mysqli_real_escape_string($connect, $_POST['jabatan']);
-        $telepon = mysqli_real_escape_string($connect, $_POST['nomor_telepon']);
-
-        $query = "UPDATE guru_detail SET nama_guru='$nama_guru', jabatan='$jabatan', nomor_telepon='$telepon' WHERE user_id='$user_id'";
-        if (mysqli_query($connect, $query)) {
-            echo "<script>alert('Data berhasil diubah');</script>";
-        } else {
-            echo "<script>alert('Gagal mengubah data'); history.back();</script>";
-        }
-    } elseif ($aksi === 'hapus_guru') {
-        $user_id = mysqli_real_escape_string($connect, $_POST['user_id']);
-
-        // Hapus dari guru_detail dan users
-        mysqli_query($connect, "DELETE FROM guru_detail WHERE user_id='$user_id'");
-        mysqli_query($connect, "DELETE FROM users WHERE id='$user_id'");
-
-        echo "<script>alert('Data berhasil dihapus');</script>";
-    } elseif ($aksi === 'tambah_guru') {
-        $email = mysqli_real_escape_string($connect, $_POST['email']);
-        $password = mysqli_real_escape_string($connect, $_POST['password']);
-        $nama_guru = mysqli_real_escape_string($connect, $_POST['nama_guru']);
-        $jabatan = mysqli_real_escape_string($connect, $_POST['jabatan']);
-        $telepon = mysqli_real_escape_string($connect, $_POST['nomor_telepon']);
-
-        // Cek apakah email sudah digunakan
-        $cek = mysqli_query($connect, "SELECT * FROM users WHERE email='$email'");
-        if (mysqli_num_rows($cek) > 0) {
-            echo "<script>alert('Email sudah digunakan!'); history.back();</script>";
-            exit;
-        }
-
-        $hash = password_hash($password, PASSWORD_DEFAULT);
-        mysqli_query($connect, "INSERT INTO users (email, password, role) VALUES ('$email', '$hash', 'guru')");
-        $user_id = mysqli_insert_id($connect);
-
-        mysqli_query($connect, "INSERT INTO guru_detail (user_id, nama_guru, jabatan, nomor_telepon) VALUES ('$user_id', '$nama_guru', '$jabatan', '$telepon')");
-
-        echo "<script>alert('Guru berhasil ditambahkan'); window.location.href='user.php';</script>";
-    } elseif ($aksi === 'tambah_guru') {
-        $email = mysqli_real_escape_string($connect, $_POST['email']);
-        $password = mysqli_real_escape_string($connect, $_POST['password']);
-        $nama_guru = mysqli_real_escape_string($connect, $_POST['nama_guru']);
-        $jabatan = mysqli_real_escape_string($connect, $_POST['jabatan']);
-        $telepon = mysqli_real_escape_string($connect, $_POST['nomor_telepon']);
-
-        // Cek apakah email sudah digunakan
-        $cek = mysqli_query($connect, "SELECT * FROM users WHERE email='$email'");
-        if (mysqli_num_rows($cek) > 0) {
-            echo "<script>alert('Email sudah digunakan!'); history.back();</script>";
-            exit;
-        }
-
-        $hash = password_hash($password, PASSWORD_DEFAULT);
-        mysqli_query($connect, "INSERT INTO users (email, password, role) VALUES ('$email', '$hash', 'guru')");
-        $user_id = mysqli_insert_id($connect);
-
-        mysqli_query($connect, "INSERT INTO guru_detail (user_id, nama_guru, jabatan, nomor_telepon) VALUES ('$user_id', '$nama_guru', '$jabatan', '$telepon')");
-
-        echo "<script>alert('Guru berhasil ditambahkan');</script>";
-    } elseif ($aksi === 'tambah_siswa') {
-        $email = mysqli_real_escape_string($connect, $_POST['email']);
-        $password = mysqli_real_escape_string($connect, $_POST['password']);
-        $nama_anak = mysqli_real_escape_string($connect, $_POST['nama_anak']);
-        $kelas = mysqli_real_escape_string($connect, $_POST['kelas']);
-        $jenis_kelamin = $_POST['jenis_kelamin'];
-        $nama_orangtua = mysqli_real_escape_string($connect, $_POST['nama_orangtua']);
-        $telepon = mysqli_real_escape_string($connect, $_POST['nomor_telepon']);
-
-        $cek = mysqli_query($connect, "SELECT * FROM users WHERE email='$email'");
-        if (mysqli_num_rows($cek) > 0) {
-            echo "<script>alert('Email sudah digunakan!'); history.back();</script>";
-            exit;
-        }
-
-        $hash = password_hash($password, PASSWORD_DEFAULT);
-        mysqli_query($connect, "INSERT INTO users (email, password, role) VALUES ('$email', '$hash', 'pengguna')");
-        $user_id = mysqli_insert_id($connect);
-
-        mysqli_query($connect, "INSERT INTO pengguna_detail (user_id, nama_anak, kelas, jenis_kelamin, nama_orangtua, nomor_telepon) VALUES ('$user_id', '$nama_anak', '$kelas', '$jenis_kelamin', '$nama_orangtua', '$telepon')");
-
-        echo "<script>alert('Siswa berhasil ditambahkan'); window.location.href='user.php';</script>";
-    } elseif ($aksi === 'hapus_siswa') {
-        $user_id = mysqli_real_escape_string($connect, $_POST['user_id']);
-        mysqli_query($connect, "DELETE FROM pengguna_detail WHERE user_id='$user_id'");
-        mysqli_query($connect, "DELETE FROM users WHERE id='$user_id'");
-        echo "<script>alert('Data siswa dihapus'); window.location.href='user.php';</script>";
+    $cek = mysqli_query($connect, "SELECT * FROM users WHERE email='$email'");
+    if (mysqli_num_rows($cek) > 0) {
+        return "Email sudah digunakan!";
     }
 
-    exit;
+    $hash = password_hash($password, PASSWORD_DEFAULT);
+    mysqli_query($connect, "INSERT INTO users (email, password, role) VALUES ('$email', '$hash', 'guru')");
+    $user_id = mysqli_insert_id($connect);
+    mysqli_query($connect, "INSERT INTO guru_detail (user_id, nama_guru, jabatan, nomor_telepon) VALUES ('$user_id', '$nama', '$jabatan', '$telepon')");
+
+    return true;
+}
+
+function editGuru($connect, $data)
+{
+    $id = mysqli_real_escape_string($connect, $data['user_id']);
+    $nama = mysqli_real_escape_string($connect, $data['nama_guru']);
+    $jabatan = mysqli_real_escape_string($connect, $data['jabatan']);
+    $telepon = mysqli_real_escape_string($connect, $data['nomor_telepon']);
+
+    $query = "UPDATE guru_detail SET nama_guru='$nama', jabatan='$jabatan', nomor_telepon='$telepon' WHERE user_id='$id'";
+    return mysqli_query($connect, $query);
+}
+
+function hapusGuru($connect, $user_id)
+{
+    $id = mysqli_real_escape_string($connect, $user_id);
+    mysqli_query($connect, "DELETE FROM guru_detail WHERE user_id='$id'");
+    mysqli_query($connect, "DELETE FROM users WHERE id='$id'");
+    return true;
+}
+
+function tambahSiswa($connect, $data)
+{
+    $email = mysqli_real_escape_string($connect, $data['email']);
+    $password = mysqli_real_escape_string($connect, $data['password']);
+    $nama = mysqli_real_escape_string($connect, $data['nama_anak']);
+    $kelas = mysqli_real_escape_string($connect, $data['kelas']);
+    $jk = $data['jenis_kelamin'];
+    $ortu = mysqli_real_escape_string($connect, $data['nama_orangtua']);
+    $telepon = mysqli_real_escape_string($connect, $data['nomor_telepon']);
+
+    $cek = mysqli_query($connect, "SELECT * FROM users WHERE email='$email'");
+    if (mysqli_num_rows($cek) > 0) {
+        return "Email sudah digunakan!";
+    }
+
+    $hash = password_hash($password, PASSWORD_DEFAULT);
+    mysqli_query($connect, "INSERT INTO users (email, password, role) VALUES ('$email', '$hash', 'pengguna')");
+    $user_id = mysqli_insert_id($connect);
+    mysqli_query($connect, "INSERT INTO pengguna_detail (user_id, nama_anak, kelas, jenis_kelamin, nama_orangtua, nomor_telepon)
+                            VALUES ('$user_id', '$nama', '$kelas', '$jk', '$ortu', '$telepon')");
+    return true;
+}
+
+function editSiswa($connect, $data)
+{
+    $id = mysqli_real_escape_string($connect, $data['user_id']);
+    $nama = mysqli_real_escape_string($connect, $data['nama_anak']);
+    $kelas = mysqli_real_escape_string($connect, $data['kelas']);
+    $jk = mysqli_real_escape_string($connect, $data['jenis_kelamin']);
+    $ortu = mysqli_real_escape_string($connect, $data['nama_orangtua']);
+    $telepon = mysqli_real_escape_string($connect, $data['nomor_telepon']);
+
+    $query = "UPDATE pengguna_detail SET nama_anak='$nama', kelas='$kelas', jenis_kelamin='$jk', nama_orangtua='$ortu', nomor_telepon='$telepon' WHERE user_id='$id'";
+
+    if (mysqli_query($connect, $query)) {
+        return true;
+    } else {
+        return mysqli_error($connect);
+    }
+}
+
+
+function hapusSiswa($connect, $user_id)
+{
+    $id = mysqli_real_escape_string($connect, $user_id);
+    mysqli_query($connect, "DELETE FROM pengguna_detail WHERE user_id='$id'");
+    mysqli_query($connect, "DELETE FROM users WHERE id='$id'");
+    return true;
 }

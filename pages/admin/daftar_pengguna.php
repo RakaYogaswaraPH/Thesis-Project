@@ -1,5 +1,10 @@
 <?php
 include '../../config/config.php';
+include '../../config/request.php';
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 
 ?>
 
@@ -18,18 +23,13 @@ include '../../config/config.php';
 
 <body class="font-[poppins] text-gray-700 antialiased">
   <div id="root">
-
     <!-- Navbar -->
     <?php include '../../components/admin/Navbar.php'; ?>
     <!-- End Of Navbar -->
-
     <div class="relative md:ml-64 bg-gray-50">
-      <nav
-        class="absolute top-0 left-0 w-full z-10 bg-transparent md:flex-row md:flex-nowrap md:justify-start flex items-center p-4">
-        <div
-          class="w-full mx-autp items-center flex justify-between md:flex-nowrap flex-wrap md:px-10 px-4">
-          <a
-            class="text-white text-xl uppercase hidden lg:inline-block font-semibold">Daftar Pengguna</a>
+      <nav class="absolute top-0 left-0 w-full z-10 bg-transparent md:flex-row md:flex-nowrap md:justify-start flex items-center p-4">
+        <div class="w-full mx-autp items-center flex justify-between md:flex-nowrap flex-wrap md:px-10 px-4">
+          <a class="text-white text-xl uppercase hidden lg:inline-block font-semibold">Daftar Pengguna</a>
           <!-- Navbar -->
           <?php include '../../components/admin/Profile.php'; ?>
           <!-- End Of Navbar -->
@@ -37,7 +37,7 @@ include '../../config/config.php';
       </nav>
 
       <!-- Header -->
-      <div class="relative bg-pink-600 md:pt-32 pb-32 pt-12">
+      <div class="relative bg-pink-600 md:pt-20 pb-32 pt-12">
       </div>
 
       <div class="px-4 md:px-10 mx-auto w-full -m-24">
@@ -53,7 +53,7 @@ include '../../config/config.php';
                       Daftar Guru
                     </h3>
                   </div>
-                  <button onclick="openAddModal()" class="bg-blue-600 text-black text-sm px-4 py-2 rounded hover:bg-blue-700 transition">
+                  <button onclick="openAddModal('guru')" class="bg-green-600 text-white text-sm px-4 py-2 rounded hover:bg-green-700 transition">
                     + Tambah Pengguna
                   </button>
                 </div>
@@ -81,32 +81,40 @@ include '../../config/config.php';
                         Nomor Telepon
                       </th>
                       <th
-                        class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-gray-50 text-gray-500 border-gray-100">
-                        Pengaturan
-                      </th>
-
+                        class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-gray-50 text-gray-500 border-gray-100"></th>
+                    </tr>
                     </tr>
                   </thead>
                   <tbody>
                     <?php
                     $no = 1;
                     $query_guru = mysqli_query($connect, "SELECT * FROM guru_detail");
-                    while ($row = mysqli_fetch_assoc($query_guru)) {
+
+                    if (mysqli_num_rows($query_guru) > 0) {
+                      while ($row = mysqli_fetch_assoc($query_guru)) {
                     ?>
+                        <tr>
+                          <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"><?= $no++ ?></td>
+                          <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"><?= htmlspecialchars($row['nama_guru']) ?></td>
+                          <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"><?= htmlspecialchars($row['jabatan']) ?></td>
+                          <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"><?= htmlspecialchars($row['nomor_telepon']) ?></td>
+                          <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-right">
+                            <a href="#!" class="text-gray-500 block py-1 px-3" onclick="openDropdown(event,'dropdown-guru-<?= $row['user_id'] ?>')">
+                              <i class="fas fa-ellipsis-v"></i>
+                            </a>
+                            <div class="hidden bg-white text-base z-50 float-left py-2 list-none text-left rounded shadow-lg min-w-48" id="dropdown-guru-<?= $row['user_id'] ?>">
+                              <a href="#!" data-id="<?= $row['user_id'] ?>" onclick="openEditModal('guru', this)" class="text-sm py-2 px-4 block w-full whitespace-nowrap text-gray-700">Ubah</a>
+                              <a href="#!" data-id="<?= $row['user_id'] ?>" onclick="openDeleteModal('guru', this)" class="text-sm py-2 px-4 block w-full whitespace-nowrap text-gray-700">Hapus</a>
+                            </div>
+                          </td>
+                        </tr>
+                      <?php
+                      }
+                    } else {
+                      ?>
                       <tr>
-                        <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"><?= $no++ ?></td>
-                        <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"><?= htmlspecialchars($row['nama_guru']) ?></td>
-                        <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"><?= htmlspecialchars($row['jabatan']) ?></td>
-                        <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"><?= htmlspecialchars($row['nomor_telepon']) ?></td>
-                        <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">Pengaturan</td>
-                        <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-right">
-                          <a href="#!" class="text-gray-500 block py-1 px-3" onclick="openDropdown(event,'dropdown-guru-<?= $row['user_id'] ?>')">
-                            <i class="fas fa-ellipsis-v"></i>
-                          </a>
-                          <div class="hidden bg-white text-base z-50 float-left py-2 list-none text-left rounded shadow-lg min-w-48" id="dropdown-guru-<?= $row['user_id'] ?>">
-                            <a href="#!" data-id="<?= $row['user_id'] ?>" onclick="openEditModal('guru', this)" class="text-sm py-2 px-4 block w-full whitespace-nowrap text-gray-700">Ubah</a>
-                            <a href="#!" data-id="<?= $row['user_id'] ?>" onclick="openDeleteModal('guru', this)" class="text-sm py-2 px-4 block w-full whitespace-nowrap text-gray-700">Hapus</a>
-                          </div>
+                        <td colspan="5" class="text-center text-gray-500 py-4">
+                          Data guru kosong.
                         </td>
                       </tr>
                     <?php } ?>
@@ -127,7 +135,7 @@ include '../../config/config.php';
                       Daftar Siswa
                     </h3>
                   </div>
-                  <button onclick="openAddModalSiswa()" class="bg-blue-600 text-white text-sm px-4 py-2 rounded hover:bg-blue-700 transition">
+                  <button onclick="openAddModal('siswa')" class="bg-green-600 text-white text-sm px-4 py-2 rounded hover:bg-green-700 transition">
                     + Tambah Siswa
                   </button>
                 </div>
@@ -156,7 +164,11 @@ include '../../config/config.php';
                       </th>
                       <th
                         class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-pink-800 text-pink-300 border-pink-700">
-                        Pengaturan
+                        Nama Orang Tua
+                      </th>
+                      <th
+                        class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-pink-800 text-pink-300 border-pink-700">
+                        Nomor Telepon
                       </th>
                       <th
                         class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-pink-800 text-pink-300 border-pink-700"></th>
@@ -166,22 +178,34 @@ include '../../config/config.php';
                     <?php
                     $no = 1;
                     $query_siswa = mysqli_query($connect, "SELECT * FROM pengguna_detail");
-                    while ($row = mysqli_fetch_assoc($query_siswa)) {
+
+                    if (mysqli_num_rows($query_siswa) > 0) {
+                      while ($row = mysqli_fetch_assoc($query_siswa)) {
                     ?>
+                        <tr>
+                          <td class="border-t-0 px-6 py-4 text-xs"><?= $no++ ?></td>
+                          <td class="border-t-0 px-6 py-4 text-xs"><?= htmlspecialchars($row['nama_anak']) ?></td>
+                          <td class="border-t-0 px-6 py-4 text-xs"><?= htmlspecialchars($row['kelas']) ?></td>
+                          <td class="border-t-0 px-6 py-4 text-xs"><?= htmlspecialchars($row['jenis_kelamin']) ?></td>
+                          <td class="border-t-0 px-6 py-4 text-xs"><?= htmlspecialchars($row['nama_orangtua']) ?></td>
+                          <td class="border-t-0 px-6 py-4 text-xs"><?= htmlspecialchars($row['nomor_telepon']) ?></td>
+                          <td class="border-t-0 px-6 py-4 text-xs text-right">
+                            <a href="#!" class="text-white block py-1 px-3" onclick="openDropdown(event,'dropdown-siswa-<?= $row['user_id'] ?>')">
+                              <i class="fas fa-ellipsis-v"></i>
+                            </a>
+                            <div class="hidden bg-white text-base z-50 float-left py-2 list-none text-left rounded shadow-lg min-w-48" id="dropdown-siswa-<?= $row['user_id'] ?>">
+                              <a href="#!" data-id="<?= $row['user_id'] ?>" onclick="openEditModal('siswa', this)" class="text-sm py-2 px-4 block w-full text-gray-700">Ubah</a>
+                              <a href="#!" data-id="<?= $row['user_id'] ?>" onclick="openDeleteModal('siswa', this)" class="text-sm py-2 px-4 block w-full text-gray-700">Hapus</a>
+                            </div>
+                          </td>
+                        </tr>
+                      <?php
+                      }
+                    } else {
+                      ?>
                       <tr>
-                        <td class="border-t-0 px-6 py-4 text-xs"><?= $no++ ?></td>
-                        <td class="border-t-0 px-6 py-4 text-xs"><?= htmlspecialchars($row['nama_anak']) ?></td>
-                        <td class="border-t-0 px-6 py-4 text-xs"><?= htmlspecialchars($row['kelas']) ?></td>
-                        <td class="border-t-0 px-6 py-4 text-xs"><?= htmlspecialchars($row['jenis_kelamin']) ?></td>
-                        <td class="border-t-0 px-6 py-4 text-xs">Pengaturan</td>
-                        <td class="border-t-0 px-6 py-4 text-xs text-right">
-                          <a href="#!" class="text-gray-500 block py-1 px-3" onclick="openDropdown(event,'dropdown-siswa-<?= $row['user_id'] ?>')">
-                            <i class="fas fa-ellipsis-v"></i>
-                          </a>
-                          <div class="hidden bg-white text-base z-50 float-left py-2 list-none text-left rounded shadow-lg min-w-48" id="dropdown-siswa-<?= $row['user_id'] ?>">
-                            <a href="#!" data-id="<?= $row['user_id'] ?>" onclick="openEditModalSiswa(this)" class="text-sm py-2 px-4 block w-full text-gray-700">Ubah</a>
-                            <a href="#!" data-id="<?= $row['user_id'] ?>" onclick="openDeleteModalSiswa(this)" class="text-sm py-2 px-4 block w-full text-gray-700">Hapus</a>
-                          </div>
+                        <td colspan="5" class="text-center text-pink-200 py-4">
+                          Data siswa kosong.
                         </td>
                       </tr>
                     <?php } ?>
@@ -202,7 +226,7 @@ include '../../config/config.php';
 
 
   <!-- Modal Tambah Guru -->
-  <div id="modal-add-guru" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+  <div id="modal-add-guru" class="hidden fixed inset-0 backdrop-blur-xs bg-opacity-50 z-50 flex items-center justify-center">
     <div class="bg-white p-6 rounded shadow-lg w-full max-w-md">
       <h2 class="text-lg font-semibold mb-4">Tambah Guru Baru</h2>
       <form method="POST">
@@ -231,15 +255,15 @@ include '../../config/config.php';
           <input type="text" name="nomor_telepon" class="w-full border rounded p-2" required>
         </div>
         <div class="flex justify-end gap-2">
-          <button type="button" onclick="closeModal('modal-add-guru')" class="px-4 py-2 bg-gray-300 rounded">Batal</button>
-          <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded">Tambah</button>
+          <button type="button" onclick="closeModal('modal-add-guru')" class="px-4 py-2 bg-gray-300 hover:bg-gray-400 transition rounded">Batal</button>
+          <button type="submit" class="px-4 py-2 bg-green-600 hover:bg-green-700 transition text-white rounded">Tambah</button>
         </div>
       </form>
     </div>
   </div>
 
   <!-- Modal Edit Guru -->
-  <div id="modal-edit-guru" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+  <div id="modal-edit-guru" class="hidden fixed inset-0 backdrop-blur-xs bg-opacity-50 z-50 flex items-center justify-center">
     <div class="bg-white p-6 rounded shadow-lg w-full max-w-md">
       <h2 class="text-lg font-semibold mb-4">Edit Guru</h2>
       <form method="POST">
@@ -258,35 +282,35 @@ include '../../config/config.php';
         </div>
         <div class="mb-4">
           <label class="block text-sm">Nomor Telepon</label>
-          <input type="text" id="edit-telepon" name="nomor_telepon" class="w-full border rounded p-2" required>
+          <input type="text" id="edit-telepon-guru" name="nomor_telepon" class="w-full border rounded p-2" required>
         </div>
         <div class="flex justify-end gap-2">
-          <button type="button" onclick="closeModal('modal-edit-guru')" class="px-4 py-2 bg-gray-300 rounded">Batal</button>
-          <button type="submit" class="px-4 py-2 bg-blue-600 text-black rounded">Simpan</button>
+          <button type="button" onclick="closeModal('modal-edit-guru')" class="px-4 py-2 bg-gray-300 hover:bg-gray-400 transition rounded">Batal</button>
+          <button type="submit" class="px-4 py-2 bg-green-600 hover:bg-green-700 transition text-white rounded">Simpan</button>
         </div>
       </form>
     </div>
   </div>
 
   <!-- Modal Hapus Guru -->
-  <div id="modal-delete-guru" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+  <div id="modal-delete-guru" class="hidden fixed inset-0 backdrop-blur-xs bg-opacity-50 z-50 flex items-center justify-center">
     <div class="bg-white p-6 rounded shadow-lg w-full max-w-sm text-center">
       <form method="POST">
         <input type="hidden" name="aksi" value="hapus_guru">
-        <input type="hidden" id="delete-user-id" name="user_id">
+        <input type="hidden" id="delete-guru-id" name="user_id">
         <p class="mb-4 text-sm">Apakah Anda yakin ingin menghapus data guru ini?</p>
         <div class="flex justify-center gap-2">
-          <button type="button" onclick="closeModal('modal-delete-guru')" class="px-4 py-2 bg-gray-300 rounded">Batal</button>
-          <button type="submit" class="px-4 py-2 text-black rounded">Hapus</button>
+          <button type="button" onclick="closeModal('modal-delete-guru')" class="px-4 py-2 bg-gray-300 hover:bg-gray-400 transition rounded">Batal</button>
+          <button type="submit" class="px-4 py-2 bg-red-500 hover:bg-red-600 transition text-white rounded">Hapus</button>
         </div>
       </form>
     </div>
   </div>
 
   <!-- Modal Tambah Siswa -->
-  <div id="modal-add-siswa" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+  <div id="modal-add-siswa" class="hidden fixed inset-0 backdrop-blur-xs bg-opacity-50 z-50 flex items-center justify-center">
     <div class="bg-white p-6 rounded shadow-lg w-full max-w-md">
-      <h2 class="text-lg font-semibold mb-4">Tambah Siswa</h2>
+      <h2 class="text-lg font-semibold mb-4">Tambah Siswa Baru</h2>
       <form method="POST">
         <input type="hidden" name="aksi" value="tambah_siswa">
         <div class="mb-4">
@@ -298,7 +322,7 @@ include '../../config/config.php';
           <input type="password" name="password" class="w-full border rounded p-2" required>
         </div>
         <div class="mb-4">
-          <label class="block text-sm">Nama Anak</label>
+          <label class="block text-sm">Nama Siswa</label>
           <input type="text" name="nama_anak" class="w-full border rounded p-2" required>
         </div>
         <div class="mb-4">
@@ -313,8 +337,8 @@ include '../../config/config.php';
         <div class="mb-4">
           <label class="block text-sm">Jenis Kelamin</label>
           <select name="jenis_kelamin" class="w-full border rounded p-2" required>
-            <option value="">-- Pilih --</option>
-            <option value="Laki-laki">Laki-laki</option>
+            <option value="">-- Pilih Jenis Kelamin --</option>
+            <option value="Laki-Laki">Laki-Laki</option>
             <option value="Perempuan">Perempuan</option>
           </select>
         </div>
@@ -327,8 +351,8 @@ include '../../config/config.php';
           <input type="text" name="nomor_telepon" class="w-full border rounded p-2" required>
         </div>
         <div class="flex justify-end gap-2">
-          <button type="button" onclick="closeModal('modal-add-siswa')" class="px-4 py-2 bg-gray-300 rounded">Batal</button>
-          <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded">Tambah</button>
+          <button type="button" onclick="closeModal('modal-add-siswa')" class="px-4 py-2 bg-gray-300 hover:bg-gray-400 transition rounded">Batal</button>
+          <button type="submit" class="px-4 py-2 bg-green-600 hover:bg-green-700 transition text-white rounded">Tambah</button>
         </div>
       </form>
     </div>
@@ -336,52 +360,66 @@ include '../../config/config.php';
 
 
   <!-- Modal Edit Siswa -->
-  <div id="modal-edit-siswa" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+  <div id="modal-edit-siswa" class="hidden fixed inset-0 backdrop-blur-xs bg-opacity-50 z-50 flex items-center justify-center">
     <div class="bg-white p-6 rounded shadow-lg w-full max-w-md">
       <h2 class="text-lg font-semibold mb-4">Edit Siswa</h2>
       <form method="POST">
         <input type="hidden" name="aksi" value="edit_siswa">
-        <input type="hidden" name="user_id" id="edit-user-id">
-
+        <input type="hidden" id="edit-siswa-id" name="user_id">
         <div class="mb-4">
-          <label class="block text-sm">Nama Anak</label>
-          <input type="text" name="nama_anak" id="edit-nama-anak" class="w-full border rounded p-2" required>
+          <label class="block text-sm">Nama Siswa</label>
+          <input type="text" id="edit-nama-anak" name="nama_anak" class="w-full border rounded p-2" required>
         </div>
-
         <div class="mb-4">
           <label class="block text-sm">Kelas</label>
-          <select name="kelas" id="edit-kelas" class="w-full border rounded p-2" required>
+          <select id="edit-kelas" name="kelas" class="w-full border rounded p-2" required>
+            <option value="">-- Pilih Kelas --</option>
             <option value="A1">A1</option>
             <option value="B1">B1</option>
             <option value="B2">B2</option>
           </select>
         </div>
-
         <div class="mb-4">
           <label class="block text-sm">Jenis Kelamin</label>
-          <select name="jenis_kelamin" id="edit-jenis-kelamin" class="w-full border rounded p-2" required>
-            <option value="Laki-laki">Laki-laki</option>
+          <select id="edit-jenis-kelamin" name="jenis_kelamin" class="w-full border rounded p-2" required>
+            <option value="">-- Pilih Jenis Kelamin --</option>
+            <option value="Laki-Laki">Laki-Laki</option>
             <option value="Perempuan">Perempuan</option>
+
           </select>
         </div>
-
         <div class="mb-4">
           <label class="block text-sm">Nama Orang Tua</label>
-          <input type="text" name="nama_orangtua" id="edit-nama-orangtua" class="w-full border rounded p-2" required>
+          <input type="text" id="edit-nama-orangtua" name="nama_orangtua" class="w-full border rounded p-2" required>
         </div>
-
         <div class="mb-4">
           <label class="block text-sm">Nomor Telepon</label>
-          <input type="text" name="nomor_telepon" id="edit-nomor-telepon" class="w-full border rounded p-2" required>
+          <input type="text" id="edit-telepon" name="nomor_telepon" class="w-full border rounded p-2" required>
         </div>
-
         <div class="flex justify-end gap-2">
-          <button type="button" onclick="closeModal('modal-edit-siswa')" class="px-4 py-2 bg-gray-300 rounded">Batal</button>
-          <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded">Simpan</button>
+          <button type="button" onclick="closeModal('modal-edit-siswa')" class="px-4 py-2 bg-gray-300 hover:bg-gray-400 transition rounded">Batal</button>
+          <button type="submit" class="px-4 py-2 bg-green-600 hover:bg-green-700 transition text-white rounded">Simpan</button>
         </div>
       </form>
     </div>
   </div>
+
+
+  <!-- Modal Hapus Siswa -->
+  <div id="modal-delete-siswa" class="hidden fixed inset-0 backdrop-blur-xs bg-opacity-50 z-50 flex items-center justify-center">
+    <div class="bg-white p-6 rounded shadow-lg w-full max-w-sm text-center">
+      <form method="POST">
+        <input type="hidden" name="aksi" value="hapus_siswa">
+        <input type="hidden" id="delete-siswa-id" name="user_id">
+        <p class="mb-4 text-sm">Apakah Anda yakin ingin menghapus data siswa ini?</p>
+        <div class="flex justify-center gap-2">
+          <button type="button" onclick="closeModal('modal-delete-siswa')" class="px-4 py-2 bg-gray-300 hover:bg-gray-400 transition rounded">Batal</button>
+          <button type="submit" class="px-4 py-2 bg-red-500 hover:bg-red-600 transition text-white rounded">Hapus</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
 
 </body>
 
@@ -392,6 +430,7 @@ include '../../config/config.php';
   function openAddModal() {
     document.getElementById('modal-add-guru').classList.remove('hidden');
   }
+
   /* Make dynamic date appear */
   (function() {
     if (document.getElementById("get-current-year")) {
@@ -407,61 +446,71 @@ include '../../config/config.php';
     document.getElementById(collapseID).classList.toggle("py-3");
     document.getElementById(collapseID).classList.toggle("px-6");
   }
+
   /* Function for dropdowns */
+  let currentDropdown = null;
+  let currentPopper = null;
+
   function openDropdown(event, dropdownID) {
-    let element = event.target;
-    while (element.nodeName !== "A") {
-      element = element.parentNode;
+    if (currentDropdown && currentDropdown.id !== dropdownID) {
+      currentDropdown.classList.add('hidden');
+      currentDropdown.classList.remove('block');
+      if (currentPopper) {
+        currentPopper.destroy();
+        currentPopper = null;
+      }
     }
-    Popper.createPopper(element, document.getElementById(dropdownID), {
-      placement: "bottom-start"
-    });
-    document.getElementById(dropdownID).classList.toggle("hidden");
-    document.getElementById(dropdownID).classList.toggle("block");
+
+    const trigger = event.target.closest("a");
+    const dropdown = document.getElementById(dropdownID);
+    const isHidden = dropdown.classList.contains("hidden");
+    dropdown.classList.toggle("hidden", !isHidden);
+    dropdown.classList.toggle("block", isHidden);
+
+    if (isHidden) {
+      currentPopper = Popper.createPopper(trigger, dropdown, {
+        placement: "bottom-start"
+      });
+      currentDropdown = dropdown;
+    } else {
+      if (currentPopper) {
+        currentPopper.destroy();
+        currentPopper = null;
+      }
+      currentDropdown = null;
+    }
+  }
+
+  function openAddModal(type) {
+    document.getElementById(`modal-add-${type}`).classList.remove('hidden');
+  }
+
+  function openEditModal(type, el) {
+    const row = el.closest('tr');
+    const id = el.getAttribute('data-id');
+    if (type === 'guru') {
+      document.getElementById('edit-user-id').value = id;
+      document.getElementById('edit-nama-guru').value = row.children[1].textContent.trim();
+      document.getElementById('edit-jabatan').value = row.children[2].textContent.trim();
+      document.getElementById('edit-telepon-guru').value = row.children[3].textContent.trim();
+    } else { // siswa
+      document.getElementById('edit-siswa-id').value = id;
+      document.getElementById('edit-nama-anak').value = row.children[1].textContent.trim();
+      document.getElementById('edit-kelas').value = row.children[2].textContent.trim();
+      document.getElementById('edit-jenis-kelamin').value = row.children[3].textContent.trim();
+      document.getElementById('edit-nama-orangtua').value = row.children[4].textContent.trim();
+      document.getElementById('edit-telepon').value = row.children[5].textContent.trim();
+    }
+    document.getElementById(`modal-edit-${type}`).classList.remove('hidden');
+  }
+
+  function openDeleteModal(type, el) {
+    const id = el.getAttribute('data-id');
+    document.getElementById(`delete-${type}-id`).value = id;
+    document.getElementById(`modal-delete-${type}`).classList.remove('hidden');
   }
 
   function closeModal(modalId) {
     document.getElementById(modalId).classList.add('hidden');
-  }
-
-  function openEditModal(type, el) {
-    const userId = el.getAttribute('data-id');
-    const row = el.closest('tr');
-    const namaGuru = row.children[1].textContent.trim();
-    const jabatan = row.children[2].textContent.trim();
-    const telepon = row.children[3].textContent.trim();
-
-    document.getElementById('edit-user-id').value = userId;
-    document.getElementById('edit-nama-guru').value = namaGuru;
-    document.getElementById('edit-jabatan').value = jabatan;
-    document.getElementById('edit-telepon').value = telepon;
-
-    document.getElementById('modal-edit-guru').classList.remove('hidden');
-  }
-
-  function openDeleteModal(type, el) {
-    const userId = el.getAttribute('data-id');
-    document.getElementById('delete-user-id').value = userId;
-    document.getElementById('modal-delete-guru').classList.remove('hidden');
-  }
-
-
-
-  function openAddModalSiswa() {
-    document.getElementById('modal-add-siswa').classList.remove('hidden');
-  }
-
-  function openDeleteModalSiswa(el) {
-    const id = el.getAttribute('data-id');
-    if (confirm("Yakin ingin menghapus siswa ini?")) {
-      const form = document.createElement("form");
-      form.method = "POST";
-      form.innerHTML = `
-      <input type="hidden" name="aksi" value="hapus_siswa">
-      <input type="hidden" name="user_id" value="${id}">
-    `;
-      document.body.appendChild(form);
-      form.submit();
-    }
   }
 </script>
