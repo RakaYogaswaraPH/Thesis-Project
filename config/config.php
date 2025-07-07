@@ -50,7 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["login"])) {
                     'role' => $role
                 ];
 
-                echo "<script>alert('Login berhasil!'); location.href='pages/pengguna/home.php';</script>";
+                echo "<script>alert('Login berhasil!'); location.href='test.php';</script>";
                 exit;
             } elseif ($role === 'guru') {
                 $detail = mysqli_query($connect, "SELECT * FROM guru_detail WHERE user_id = '$user_id'");
@@ -77,7 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["login"])) {
                     'role' => $role
                 ];
 
-                echo "<script>alert('Login berhasil!'); location.href='pages/admin/home.php';</script>";
+                echo "<script>alert('Login berhasil!'); location.href='pages/admin/dashboard.php';</script>";
                 exit;
             } else {
                 echo "<script>alert('Role tidak dikenali!'); history.back();</script>";

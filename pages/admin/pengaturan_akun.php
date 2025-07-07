@@ -1,3 +1,13 @@
+<?php
+session_start();
+if (!isset($_SESSION['admin'])) {
+  header("Location: ../../login.php");
+  exit;
+}
+
+$pengguna = $_SESSION['admin'];
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -27,7 +37,7 @@
       </nav>
 
       <!-- Header -->
-      <div class="relative bg-pink-600 md:pt-32 pb-20 pt-12">
+      <div class="relative bg-secondary-400 md:pt-32 pb-20 pt-12">
       </div>
 
       <div class="px-4 md:px-10 mx-auto w-full -m-24">
@@ -40,7 +50,7 @@
                     Akun Saya
                   </h6>
                   <button
-                    class="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+                    class="bg-primary-500 text-white active:bg-primary-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                     type="button">
                     Ubah
                   </button>
@@ -63,7 +73,7 @@
                         <input
                           type="text"
                           class="border-0 px-3 py-3 placeholder-gray-300 text-gray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                          value="lucky.jesse" />
+                          value="<?= htmlspecialchars($pengguna['nama_admin']) ?>" />
                       </div>
                     </div>
                     <div class="w-full lg:w-6/12 px-4">
@@ -76,7 +86,7 @@
                         <input
                           type="email"
                           class="border-0 px-3 py-3 placeholder-gray-300 text-gray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                          value="jesse@example.com" />
+                          value="<?= htmlspecialchars($pengguna['email']) ?>" />
                       </div>
                     </div>
                     <div class="w-full px-4">
@@ -126,7 +136,7 @@
                 <div class="text-center mt-12">
                   <h3
                     class="text-xl font-semibold leading-normal mb-2 text-gray-700">
-                    Jenna Stones
+                    <?= htmlspecialchars($pengguna['nama_admin']) ?>
                   </h3>
                   <div
                     class="text-sm leading-normal mt-0 mb-2 text-gray-700 font-bold uppercase">
@@ -151,36 +161,8 @@
       </div>
     </div>
   </div>
-  <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
-  <script type="text/javascript">
-    /* Make dynamic date appear */
-    (function() {
-      if (document.getElementById("get-current-year")) {
-        document.getElementById("get-current-year").innerHTML =
-          new Date().getFullYear();
-      }
-    })();
-    /* Sidebar - Side navigation menu on mobile/responsive mode */
-    function toggleNavbar(collapseID) {
-      document.getElementById(collapseID).classList.toggle("hidden");
-      document.getElementById(collapseID).classList.toggle("bg-white");
-      document.getElementById(collapseID).classList.toggle("m-2");
-      document.getElementById(collapseID).classList.toggle("py-3");
-      document.getElementById(collapseID).classList.toggle("px-6");
-    }
-    /* Function for dropdowns */
-    function openDropdown(event, dropdownID) {
-      let element = event.target;
-      while (element.nodeName !== "A") {
-        element = element.parentNode;
-      }
-      Popper.createPopper(element, document.getElementById(dropdownID), {
-        placement: "bottom-start"
-      });
-      document.getElementById(dropdownID).classList.toggle("hidden");
-      document.getElementById(dropdownID).classList.toggle("block");
-    }
-  </script>
 </body>
 
 </html>
+<script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
+<script src="../../src/js/modal.js"></script>

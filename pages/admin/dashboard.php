@@ -1,5 +1,13 @@
 <?php
+session_start();
+if (!isset($_SESSION['admin'])) {
+  header("Location: ../../login.php");
+  exit;
+}
+
+$pengguna = $_SESSION['admin'];
 include '../../config/config.php';
+
 $jumlah_pengguna = hitungJumlahPengguna();
 $pengguna_baru = hitungPenggunaBaruHariIni();
 
@@ -43,7 +51,7 @@ $warna_tren = $persentase >= 0 ? 'text-emerald-500' : 'text-orange-500'
       </nav>
 
       <!-- Header -->
-      <div class="relative bg-pink-600 md:pt-32 pb-32 pt-12">
+      <div class="relative bg-secondary-400 md:pt-32 pb-32 pt-12">
         <div class="px-4 md:px-10 mx-auto w-full">
           <div>
             <!-- Card stats -->
@@ -564,39 +572,10 @@ $warna_tren = $persentase >= 0 ? 'text-emerald-500' : 'text-orange-500'
       </div>
     </div>
   </div>
-  <script
-    src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"
-    charset="utf-8"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" charset="utf-8"></script>
   <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
+  <script src="../../src//js/modal.js"></script>
   <script type="text/javascript">
-    /* Make dynamic date appear */
-    (function() {
-      if (document.getElementById("get-current-year")) {
-        document.getElementById("get-current-year").innerHTML =
-          new Date().getFullYear();
-      }
-    })();
-    /* Sidebar - Side navigation menu on mobile/responsive mode */
-    function toggleNavbar(collapseID) {
-      document.getElementById(collapseID).classList.toggle("hidden");
-      document.getElementById(collapseID).classList.toggle("bg-white");
-      document.getElementById(collapseID).classList.toggle("m-2");
-      document.getElementById(collapseID).classList.toggle("py-3");
-      document.getElementById(collapseID).classList.toggle("px-6");
-    }
-    /* Function for dropdowns */
-    function openDropdown(event, dropdownID) {
-      let element = event.target;
-      while (element.nodeName !== "A") {
-        element = element.parentNode;
-      }
-      Popper.createPopper(element, document.getElementById(dropdownID), {
-        placement: "bottom-start"
-      });
-      document.getElementById(dropdownID).classList.toggle("hidden");
-      document.getElementById(dropdownID).classList.toggle("block");
-    }
-
     (function() {
       /* Chart initialisations */
       /* Line Chart */

@@ -1,11 +1,13 @@
 <?php
+session_start();
+if (!isset($_SESSION['admin'])) {
+  header("Location: ../../login.php");
+  exit;
+}
+$pengguna = $_SESSION['admin'];
+
 include '../../config/config.php';
 include '../../config/request.php';
-
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
-
 ?>
 
 <!DOCTYPE html>
@@ -37,7 +39,7 @@ ini_set('display_errors', 1);
       </nav>
 
       <!-- Header -->
-      <div class="relative bg-pink-600 md:pt-20 pb-32 pt-12">
+      <div class="relative bg-secondary-400 md:pt-20 pb-32 pt-12">
       </div>
 
       <div class="px-4 md:px-10 mx-auto w-full -m-24">
@@ -126,7 +128,7 @@ ini_set('display_errors', 1);
 
           <div class="w-full mb-12 px-4">
             <div
-              class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded bg-pink-900 text-white">
+              class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded bg-primary-700  text-white">
               <div class="rounded-t mb-0 px-4 py-3 border-0">
                 <div class="flex flex-wrap items-center">
                   <div
@@ -147,31 +149,31 @@ ini_set('display_errors', 1);
                   <thead>
                     <tr>
                       <th
-                        class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-pink-800 text-pink-300 border-pink-700">
+                        class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-primary-600 text-white-300 border-primary-500">
                         No
                       </th>
                       <th
-                        class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-pink-800 text-pink-300 border-pink-700">
+                        class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-primary-600 text-white-300 border-primary-500">
                         Nama Siswa
                       </th>
                       <th
-                        class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-pink-800 text-pink-300 border-pink-700">
+                        class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-primary-600 text-white-300 border-primary-500">
                         Kelas
                       </th>
                       <th
-                        class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-pink-800 text-pink-300 border-pink-700">
+                        class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-primary-600 text-white-300 border-primary-500">
                         Jenis Kelamin
                       </th>
                       <th
-                        class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-pink-800 text-pink-300 border-pink-700">
+                        class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-primary-600 text-white-300 border-primary-500">
                         Nama Orang Tua
                       </th>
                       <th
-                        class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-pink-800 text-pink-300 border-pink-700">
+                        class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-primary-600 text-white-300 border-primary-500">
                         Nomor Telepon
                       </th>
                       <th
-                        class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-pink-800 text-pink-300 border-pink-700"></th>
+                        class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-primary-600 text-white-300 border-primary-500"></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -226,291 +228,237 @@ ini_set('display_errors', 1);
 
 
   <!-- Modal Tambah Guru -->
-  <div id="modal-add-guru" class="hidden fixed inset-0 backdrop-blur-xs bg-opacity-50 z-50 flex items-center justify-center">
-    <div class="bg-white p-6 rounded shadow-lg w-full max-w-md">
-      <h2 class="text-lg font-semibold mb-4">Tambah Guru Baru</h2>
-      <form method="POST">
+  <div id="modal-add-guru" class="hidden fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center">
+    <div class="modal-content bg-white p-6 rounded-2xl shadow-xl w-full max-w-lg max-h-[90vh] overflow-y-auto transform scale-95 opacity-0 transition duration-300 ease-in-out">
+      <h2 class="text-xl font-bold mb-6 flex items-center gap-2 text-green-700">
+        <i class="fas fa-user-plus"></i> Tambah Guru Baru
+      </h2>
+      <form method="POST" class="space-y-4">
         <input type="hidden" name="aksi" value="tambah_guru">
-        <div class="mb-4">
-          <label class="block text-sm">Email</label>
-          <input type="email" name="email" class="w-full border rounded p-2" required>
+        <div>
+          <label class="text-sm font-medium text-gray-700">Email</label>
+          <input type="email" name="email" class="w-full border rounded-lg px-4 py-2 focus:ring-green-500" required>
         </div>
-        <div class="mb-4">
-          <label class="block text-sm">Password</label>
-          <input type="password" name="password" class="w-full border rounded p-2" required>
+        <div>
+          <label class="text-sm font-medium text-gray-700">Password</label>
+          <input type="password" name="password" class="w-full border rounded-lg px-4 py-2 focus:ring-green-500" required>
         </div>
-        <div class="mb-4">
-          <label class="block text-sm">Nama Guru</label>
-          <input type="text" name="nama_guru" class="w-full border rounded p-2" required>
+        <div>
+          <label class="text-sm font-medium text-gray-700">Nama Guru</label>
+          <input type="text" name="nama_guru" class="w-full border rounded-lg px-4 py-2 focus:ring-green-500" required>
         </div>
-        <div class="mb-4">
-          <select name="jabatan" class="w-full border rounded p-2" required>
+        <div>
+          <label class="text-sm font-medium text-gray-700">Jabatan</label>
+          <select name="jabatan" class="w-full border rounded-lg px-4 py-2 focus:ring-green-500" required>
             <option value="">-- Pilih Jabatan --</option>
             <option value="Wali Kelas">Wali Kelas</option>
             <option value="Guru Pendamping">Guru Pendamping</option>
           </select>
         </div>
-        <div class="mb-4">
-          <label class="block text-sm">Nomor Telepon</label>
-          <input type="text" name="nomor_telepon" class="w-full border rounded p-2" required>
+        <div>
+          <label class="text-sm font-medium text-gray-700">Nomor Telepon</label>
+          <input type="text" name="nomor_telepon" class="w-full border rounded-lg px-4 py-2 focus:ring-green-500" required>
         </div>
-        <div class="flex justify-end gap-2">
-          <button type="button" onclick="closeModal('modal-add-guru')" class="px-4 py-2 bg-gray-300 hover:bg-gray-400 transition rounded">Batal</button>
-          <button type="submit" class="px-4 py-2 bg-green-600 hover:bg-green-700 transition text-white rounded">Tambah</button>
+        <div class="flex justify-end gap-2 pt-4">
+          <button type="button" onclick="closeModal('modal-add-guru')" class="flex items-center gap-2 px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg transition">
+            <i class="fas fa-times"></i> Batal
+          </button>
+          <button type="submit" class="flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition">
+            <i class="fas fa-plus-circle"></i> Tambah
+          </button>
         </div>
       </form>
     </div>
   </div>
 
   <!-- Modal Edit Guru -->
-  <div id="modal-edit-guru" class="hidden fixed inset-0 backdrop-blur-xs bg-opacity-50 z-50 flex items-center justify-center">
-    <div class="bg-white p-6 rounded shadow-lg w-full max-w-md">
-      <h2 class="text-lg font-semibold mb-4">Edit Guru</h2>
-      <form method="POST">
+  <div id="modal-edit-guru" class="hidden fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center">
+    <div class="modal-content bg-white p-6 rounded-2xl shadow-xl w-full max-w-lg max-h-[90vh] overflow-y-auto transform scale-95 opacity-0 transition duration-300 ease-in-out">
+      <h2 class="text-xl font-bold mb-6 flex items-center gap-2 text-yellow-600">
+        <i class="fas fa-user-edit"></i> Edit Guru
+      </h2>
+      <form method="POST" class="space-y-4">
         <input type="hidden" name="aksi" value="edit_guru">
         <input type="hidden" id="edit-user-id" name="user_id">
-        <div class="mb-4">
-          <label class="block text-sm">Nama Guru</label>
-          <input type="text" id="edit-nama-guru" name="nama_guru" class="w-full border rounded p-2" required>
+        <div>
+          <label class="text-sm font-medium text-gray-700">Nama Guru</label>
+          <input type="text" id="edit-nama-guru" name="nama_guru" class="w-full border rounded-lg px-4 py-2 focus:ring-yellow-500" required>
         </div>
-        <div class="mb-4">
-          <select id="edit-jabatan" name="jabatan" class="w-full border rounded p-2" required>
+        <div>
+          <label class="text-sm font-medium text-gray-700">Jabatan</label>
+          <select id="edit-jabatan" name="jabatan" class="w-full border rounded-lg px-4 py-2 focus:ring-yellow-500" required>
             <option value="">-- Pilih Jabatan --</option>
             <option value="Wali Kelas">Wali Kelas</option>
             <option value="Guru Pendamping">Guru Pendamping</option>
           </select>
         </div>
-        <div class="mb-4">
-          <label class="block text-sm">Nomor Telepon</label>
-          <input type="text" id="edit-telepon-guru" name="nomor_telepon" class="w-full border rounded p-2" required>
+        <div>
+          <label class="text-sm font-medium text-gray-700">Nomor Telepon</label>
+          <input type="text" id="edit-telepon-guru" name="nomor_telepon" class="w-full border rounded-lg px-4 py-2 focus:ring-yellow-500" required>
         </div>
-        <div class="flex justify-end gap-2">
-          <button type="button" onclick="closeModal('modal-edit-guru')" class="px-4 py-2 bg-gray-300 hover:bg-gray-400 transition rounded">Batal</button>
-          <button type="submit" class="px-4 py-2 bg-green-600 hover:bg-green-700 transition text-white rounded">Simpan</button>
+        <div class="flex justify-end gap-2 pt-4">
+          <button type="button" onclick="closeModal('modal-edit-guru')" class="flex items-center gap-2 px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg transition">
+            <i class="fas fa-times"></i> Batal
+          </button>
+          <button type="submit" class="flex items-center gap-2 px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-white rounded-lg transition">
+            <i class="fas fa-save"></i> Simpan
+          </button>
         </div>
       </form>
     </div>
   </div>
 
   <!-- Modal Hapus Guru -->
-  <div id="modal-delete-guru" class="hidden fixed inset-0 backdrop-blur-xs bg-opacity-50 z-50 flex items-center justify-center">
-    <div class="bg-white p-6 rounded shadow-lg w-full max-w-sm text-center">
+  <div id="modal-delete-guru" class="hidden fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center">
+    <div class="modal-content bg-white p-6 rounded-2xl shadow-xl w-full max-w-sm text-center transform scale-95 opacity-0 transition duration-300 ease-in-out">
       <form method="POST">
         <input type="hidden" name="aksi" value="hapus_guru">
         <input type="hidden" id="delete-guru-id" name="user_id">
         <p class="mb-4 text-sm">Apakah Anda yakin ingin menghapus data guru ini?</p>
         <div class="flex justify-center gap-2">
-          <button type="button" onclick="closeModal('modal-delete-guru')" class="px-4 py-2 bg-gray-300 hover:bg-gray-400 transition rounded">Batal</button>
-          <button type="submit" class="px-4 py-2 bg-red-500 hover:bg-red-600 transition text-white rounded">Hapus</button>
+          <button type="button" onclick="closeModal('modal-delete-guru')" class="flex items-center gap-2 px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg transition">
+            <i class="fas fa-times"></i> Batal
+          </button>
+          <button type="submit" class="flex items-center gap-2 px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition">
+            <i class="fas fa-trash"></i> Hapus
+          </button>
         </div>
       </form>
     </div>
   </div>
 
-  <!-- Modal Tambah Siswa -->
-  <div id="modal-add-siswa" class="hidden fixed inset-0 backdrop-blur-xs bg-opacity-50 z-50 flex items-center justify-center">
-    <div class="bg-white p-6 rounded shadow-lg w-full max-w-md">
-      <h2 class="text-lg font-semibold mb-4">Tambah Siswa Baru</h2>
-      <form method="POST">
+  <div id="modal-add-siswa" class="hidden fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center">
+    <div class="modal-content bg-white p-6 rounded-2xl shadow-xl w-full max-w-lg max-h-[90vh] overflow-y-auto transform scale-95 opacity-0 transition duration-300 ease-in-out">
+      <h2 class="text-xl font-bold mb-6 flex items-center gap-2 text-green-700">
+        <i class="fas fa-user-plus"></i> Tambah Siswa Baru
+      </h2>
+      <form method="POST" class="space-y-4">
         <input type="hidden" name="aksi" value="tambah_siswa">
-        <div class="mb-4">
-          <label class="block text-sm">Email</label>
-          <input type="email" name="email" class="w-full border rounded p-2" required>
+        <div>
+          <label class="text-sm font-medium text-gray-700">Email</label>
+          <input type="email" name="email" class="w-full border rounded-lg px-4 py-2 focus:ring-green-500" required>
         </div>
-        <div class="mb-4">
-          <label class="block text-sm">Password</label>
-          <input type="password" name="password" class="w-full border rounded p-2" required>
+        <div>
+          <label class="text-sm font-medium text-gray-700">Password</label>
+          <input type="password" name="password" class="w-full border rounded-lg px-4 py-2 focus:ring-green-500" required>
         </div>
-        <div class="mb-4">
-          <label class="block text-sm">Nama Siswa</label>
-          <input type="text" name="nama_anak" class="w-full border rounded p-2" required>
+        <div>
+          <label class="text-sm font-medium text-gray-700">Nama Siswa</label>
+          <input type="text" name="nama_anak" class="w-full border rounded-lg px-4 py-2 focus:ring-green-500" required>
         </div>
-        <div class="mb-4">
-          <label class="block text-sm">Kelas</label>
-          <select name="kelas" class="w-full border rounded p-2" required>
-            <option value="">-- Pilih Kelas --</option>
-            <option value="A1">A1</option>
-            <option value="B1">B1</option>
-            <option value="B2">B2</option>
-          </select>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="text-sm font-medium text-gray-700">Kelas</label>
+            <select name="kelas" class="w-full border rounded-lg px-4 py-2 focus:ring-green-500" required>
+              <option value="">-- Pilih Kelas --</option>
+              <option value="A1">A1</option>
+              <option value="B1">B1</option>
+              <option value="B2">B2</option>
+            </select>
+          </div>
+          <div>
+            <label class="text-sm font-medium text-gray-700">Jenis Kelamin</label>
+            <select name="jenis_kelamin" class="w-full border rounded-lg px-4 py-2 focus:ring-green-500" required>
+              <option value="">-- Pilih Jenis Kelamin --</option>
+              <option value="Laki-Laki">Laki-Laki</option>
+              <option value="Perempuan">Perempuan</option>
+            </select>
+          </div>
         </div>
-        <div class="mb-4">
-          <label class="block text-sm">Jenis Kelamin</label>
-          <select name="jenis_kelamin" class="w-full border rounded p-2" required>
-            <option value="">-- Pilih Jenis Kelamin --</option>
-            <option value="Laki-Laki">Laki-Laki</option>
-            <option value="Perempuan">Perempuan</option>
-          </select>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="text-sm font-medium text-gray-700">Nama Orang Tua</label>
+            <input type="text" name="nama_orangtua" class="w-full border rounded-lg px-4 py-2 focus:ring-green-500" required>
+          </div>
+          <div>
+            <label class="text-sm font-medium text-gray-700">Nomor Telepon</label>
+            <input type="text" name="nomor_telepon" class="w-full border rounded-lg px-4 py-2 focus:ring-green-500" required>
+          </div>
         </div>
-        <div class="mb-4">
-          <label class="block text-sm">Nama Orang Tua</label>
-          <input type="text" name="nama_orangtua" class="w-full border rounded p-2" required>
-        </div>
-        <div class="mb-4">
-          <label class="block text-sm">Nomor Telepon</label>
-          <input type="text" name="nomor_telepon" class="w-full border rounded p-2" required>
-        </div>
-        <div class="flex justify-end gap-2">
-          <button type="button" onclick="closeModal('modal-add-siswa')" class="px-4 py-2 bg-gray-300 hover:bg-gray-400 transition rounded">Batal</button>
-          <button type="submit" class="px-4 py-2 bg-green-600 hover:bg-green-700 transition text-white rounded">Tambah</button>
+        <div class="flex justify-end gap-2 pt-4">
+          <button type="button" onclick="closeModal('modal-add-siswa')" class="flex items-center gap-2 px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg transition">
+            <i class="fas fa-times"></i> Batal
+          </button>
+          <button type="submit" class="flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition">
+            <i class="fas fa-plus-circle"></i> Tambah
+          </button>
         </div>
       </form>
     </div>
   </div>
-
 
   <!-- Modal Edit Siswa -->
-  <div id="modal-edit-siswa" class="hidden fixed inset-0 backdrop-blur-xs bg-opacity-50 z-50 flex items-center justify-center">
-    <div class="bg-white p-6 rounded shadow-lg w-full max-w-md">
-      <h2 class="text-lg font-semibold mb-4">Edit Siswa</h2>
-      <form method="POST">
+  <div id="modal-edit-siswa" class="hidden fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center">
+    <div class="modal-content bg-white p-6 rounded-2xl shadow-xl w-full max-w-lg max-h-[90vh] overflow-y-auto transform scale-95 opacity-0 transition duration-300 ease-in-out">
+      <h2 class="text-xl font-bold mb-6 flex items-center gap-2 text-yellow-600">
+        <i class="fas fa-user-edit"></i> Edit Siswa
+      </h2>
+      <form method="POST" class="space-y-4">
         <input type="hidden" name="aksi" value="edit_siswa">
         <input type="hidden" id="edit-siswa-id" name="user_id">
-        <div class="mb-4">
-          <label class="block text-sm">Nama Siswa</label>
-          <input type="text" id="edit-nama-anak" name="nama_anak" class="w-full border rounded p-2" required>
+        <div>
+          <label class="text-sm font-medium text-gray-700">Nama Siswa</label>
+          <input type="text" id="edit-nama-anak" name="nama_anak" class="w-full border rounded-lg px-4 py-2 focus:ring-yellow-500" required>
         </div>
-        <div class="mb-4">
-          <label class="block text-sm">Kelas</label>
-          <select id="edit-kelas" name="kelas" class="w-full border rounded p-2" required>
+        <div>
+          <label class="text-sm font-medium text-gray-700">Kelas</label>
+          <select id="edit-kelas" name="kelas" class="w-full border rounded-lg px-4 py-2 focus:ring-yellow-500" required>
             <option value="">-- Pilih Kelas --</option>
             <option value="A1">A1</option>
             <option value="B1">B1</option>
             <option value="B2">B2</option>
           </select>
         </div>
-        <div class="mb-4">
-          <label class="block text-sm">Jenis Kelamin</label>
-          <select id="edit-jenis-kelamin" name="jenis_kelamin" class="w-full border rounded p-2" required>
+        <div>
+          <label class="text-sm font-medium text-gray-700">Jenis Kelamin</label>
+          <select id="edit-jenis-kelamin" name="jenis_kelamin" class="w-full border rounded-lg px-4 py-2 focus:ring-yellow-500" required>
             <option value="">-- Pilih Jenis Kelamin --</option>
             <option value="Laki-Laki">Laki-Laki</option>
             <option value="Perempuan">Perempuan</option>
-
           </select>
         </div>
-        <div class="mb-4">
-          <label class="block text-sm">Nama Orang Tua</label>
-          <input type="text" id="edit-nama-orangtua" name="nama_orangtua" class="w-full border rounded p-2" required>
+        <div>
+          <label class="text-sm font-medium text-gray-700">Nama Orang Tua</label>
+          <input type="text" id="edit-nama-orangtua" name="nama_orangtua" class="w-full border rounded-lg px-4 py-2 focus:ring-yellow-500" required>
         </div>
-        <div class="mb-4">
-          <label class="block text-sm">Nomor Telepon</label>
-          <input type="text" id="edit-telepon" name="nomor_telepon" class="w-full border rounded p-2" required>
+        <div>
+          <label class="text-sm font-medium text-gray-700">Nomor Telepon</label>
+          <input type="text" id="edit-telepon" name="nomor_telepon" class="w-full border rounded-lg px-4 py-2 focus:ring-yellow-500" required>
         </div>
-        <div class="flex justify-end gap-2">
-          <button type="button" onclick="closeModal('modal-edit-siswa')" class="px-4 py-2 bg-gray-300 hover:bg-gray-400 transition rounded">Batal</button>
-          <button type="submit" class="px-4 py-2 bg-green-600 hover:bg-green-700 transition text-white rounded">Simpan</button>
+        <div class="flex justify-end gap-2 pt-4">
+          <button type="button" onclick="closeModal('modal-edit-siswa')" class="flex items-center gap-2 px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg transition">
+            <i class="fas fa-times"></i> Batal
+          </button>
+          <button type="submit" class="flex items-center gap-2 px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-white rounded-lg transition">
+            <i class="fas fa-save"></i> Simpan
+          </button>
         </div>
       </form>
     </div>
   </div>
 
-
   <!-- Modal Hapus Siswa -->
-  <div id="modal-delete-siswa" class="hidden fixed inset-0 backdrop-blur-xs bg-opacity-50 z-50 flex items-center justify-center">
-    <div class="bg-white p-6 rounded shadow-lg w-full max-w-sm text-center">
+  <div id="modal-delete-siswa" class="hidden fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center">
+    <div class="modal-content bg-white p-6 rounded-2xl shadow-xl w-full max-w-sm text-center transform scale-95 opacity-0 transition duration-300 ease-in-out">
       <form method="POST">
         <input type="hidden" name="aksi" value="hapus_siswa">
         <input type="hidden" id="delete-siswa-id" name="user_id">
         <p class="mb-4 text-sm">Apakah Anda yakin ingin menghapus data siswa ini?</p>
         <div class="flex justify-center gap-2">
-          <button type="button" onclick="closeModal('modal-delete-siswa')" class="px-4 py-2 bg-gray-300 hover:bg-gray-400 transition rounded">Batal</button>
-          <button type="submit" class="px-4 py-2 bg-red-500 hover:bg-red-600 transition text-white rounded">Hapus</button>
+          <button type="button" onclick="closeModal('modal-delete-siswa')" class="flex items-center gap-2 px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg transition">
+            <i class="fas fa-times"></i> Batal
+          </button>
+          <button type="submit" class="flex items-center gap-2 px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition">
+            <i class="fas fa-trash"></i> Hapus
+          </button>
         </div>
       </form>
     </div>
   </div>
-
 
 </body>
 
 </html>
 
 <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
-<script>
-  function openAddModal() {
-    document.getElementById('modal-add-guru').classList.remove('hidden');
-  }
-
-  /* Make dynamic date appear */
-  (function() {
-    if (document.getElementById("get-current-year")) {
-      document.getElementById("get-current-year").innerHTML =
-        new Date().getFullYear();
-    }
-  })();
-  /* Sidebar - Side navigation menu on mobile/responsive mode */
-  function toggleNavbar(collapseID) {
-    document.getElementById(collapseID).classList.toggle("hidden");
-    document.getElementById(collapseID).classList.toggle("bg-white");
-    document.getElementById(collapseID).classList.toggle("m-2");
-    document.getElementById(collapseID).classList.toggle("py-3");
-    document.getElementById(collapseID).classList.toggle("px-6");
-  }
-
-  /* Function for dropdowns */
-  let currentDropdown = null;
-  let currentPopper = null;
-
-  function openDropdown(event, dropdownID) {
-    if (currentDropdown && currentDropdown.id !== dropdownID) {
-      currentDropdown.classList.add('hidden');
-      currentDropdown.classList.remove('block');
-      if (currentPopper) {
-        currentPopper.destroy();
-        currentPopper = null;
-      }
-    }
-
-    const trigger = event.target.closest("a");
-    const dropdown = document.getElementById(dropdownID);
-    const isHidden = dropdown.classList.contains("hidden");
-    dropdown.classList.toggle("hidden", !isHidden);
-    dropdown.classList.toggle("block", isHidden);
-
-    if (isHidden) {
-      currentPopper = Popper.createPopper(trigger, dropdown, {
-        placement: "bottom-start"
-      });
-      currentDropdown = dropdown;
-    } else {
-      if (currentPopper) {
-        currentPopper.destroy();
-        currentPopper = null;
-      }
-      currentDropdown = null;
-    }
-  }
-
-  function openAddModal(type) {
-    document.getElementById(`modal-add-${type}`).classList.remove('hidden');
-  }
-
-  function openEditModal(type, el) {
-    const row = el.closest('tr');
-    const id = el.getAttribute('data-id');
-    if (type === 'guru') {
-      document.getElementById('edit-user-id').value = id;
-      document.getElementById('edit-nama-guru').value = row.children[1].textContent.trim();
-      document.getElementById('edit-jabatan').value = row.children[2].textContent.trim();
-      document.getElementById('edit-telepon-guru').value = row.children[3].textContent.trim();
-    } else { // siswa
-      document.getElementById('edit-siswa-id').value = id;
-      document.getElementById('edit-nama-anak').value = row.children[1].textContent.trim();
-      document.getElementById('edit-kelas').value = row.children[2].textContent.trim();
-      document.getElementById('edit-jenis-kelamin').value = row.children[3].textContent.trim();
-      document.getElementById('edit-nama-orangtua').value = row.children[4].textContent.trim();
-      document.getElementById('edit-telepon').value = row.children[5].textContent.trim();
-    }
-    document.getElementById(`modal-edit-${type}`).classList.remove('hidden');
-  }
-
-  function openDeleteModal(type, el) {
-    const id = el.getAttribute('data-id');
-    document.getElementById(`delete-${type}-id`).value = id;
-    document.getElementById(`modal-delete-${type}`).classList.remove('hidden');
-  }
-
-  function closeModal(modalId) {
-    document.getElementById(modalId).classList.add('hidden');
-  }
-</script>
+<script src="../../src/js/modal.js"></script>
