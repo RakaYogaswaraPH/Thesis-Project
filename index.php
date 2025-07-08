@@ -5,12 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PPMH | Taking Learning Fun</title>
-
     <link rel="stylesheet" href="./src/styles/style.css">
     <link rel="icon" href="./src/images/Logo.png" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 
@@ -25,7 +25,7 @@
     <!-- End Of Mobile Navbar -->
 
     <!-- Hero Section -->
-    <div class="relative bg-hero bg-cover bg-no-repeat bg-center min-h-screen flex items-center pt-20 pb-20 md:pb-0 md:pt-0" style="background-image: url('images/Hero_background.png');" id="homepage">
+    <div class="relative bg-hero bg-cover bg-no-repeat bg-center min-h-screen flex items-center pt-20 pb-20 md:pb-0 md:pt-0" style="background-image: url('./src/images/Hero_background.png');" id="homepage">
         <div class="absolute inset-0 bg-gradient-to-r from-white/60 to-white/30"></div>
         <div class="container mx-auto px-6 sm:px-8 lg:px-16 relative z-10">
             <div class="flex flex-col md:flex-row items-center">

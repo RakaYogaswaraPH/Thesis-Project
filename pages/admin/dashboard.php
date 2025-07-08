@@ -1,4 +1,5 @@
 <?php
+include '../../config/config.php';
 session_start();
 if (!isset($_SESSION['admin'])) {
   header("Location: ../../login.php");
@@ -6,8 +7,7 @@ if (!isset($_SESSION['admin'])) {
 }
 
 $pengguna = $_SESSION['admin'];
-include '../../config/config.php';
-
+$greeting = getGreeting();
 $jumlah_pengguna = hitungJumlahPengguna();
 $pengguna_baru = hitungPenggunaBaruHariIni();
 
@@ -43,7 +43,7 @@ $warna_tren = $persentase >= 0 ? 'text-emerald-500' : 'text-orange-500'
     <div class="relative md:ml-64 bg-gray-50">
       <nav class="absolute top-0 left-0 w-full z-10 bg-transparent md:flex-row md:flex-nowrap md:justify-start flex items-center p-4">
         <div class="w-full mx-autp items-center flex justify-between md:flex-nowrap flex-wrap md:px-10 px-4">
-          <a class="text-white text-xl uppercase hidden lg:inline-block font-semibold">Dashboard</a>
+          <a class="text-white text-2xl uppercase hidden lg:inline-block font-semibold mt-6"> <?= $greeting ?> <?= htmlspecialchars($pengguna['nama_admin']) ?></a>
           <!-- Navbar -->
           <?php include '../../components/admin/Profile.php'; ?>
           <!-- End Of Navbar -->

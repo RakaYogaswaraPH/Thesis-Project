@@ -77,8 +77,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                 <div class="flex flex-wrap">
                     <div class="w-6/12">
                         <a
-                            class="md:block text-left md:pb-2 text-blueGray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0"
-                            >
+                            class="md:block text-left md:pb-2 text-blueGray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0">
                             POS PAUD MAWAR HIDAYAH
                         </a>
                     </div>
@@ -104,7 +103,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
             <hr class="my-4 md:min-w-full" />
             <!-- Heading -->
             <h6
-                class="md:min-w-full text-blueGray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline">
+                class="md:min-w-full text-blueGray-500 text-sm uppercase font-bold block pt-1 pb-4 no-underline">
                 Menu Pilihan
             </h6>
             <!-- Navigation -->
@@ -112,7 +111,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                 <li class="items-center">
                     <a
                         href="<?php echo $currentPage == 'dashboard.php' ? 'javascript:void(0);' : './dashboard.php'; ?>"
-                        class="text-xs uppercase py-3 font-bold block <?php echo $currentPage == 'dashboard.php' ? 'text-secondary-500 hover:text-secondary-600' : 'text-blueGray-700 hover:text-blueGray-500'; ?>">
+                        class="text-sm uppercase py-3 font-bold block <?php echo $currentPage == 'dashboard.php' ? 'text-secondary-500 hover:text-secondary-600' : 'text-blueGray-700 hover:text-blueGray-500'; ?>">
                         <i class="fas fa-tv mr-2 text-sm opacity-75"></i> Dashboard
                     </a>
                 </li>
@@ -120,7 +119,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                 <li class="items-center">
                     <a
                         href="<?php echo $currentPage == 'daftar_pengguna.php' ? 'javascript:void(0);' : './daftar_pengguna.php'; ?>"
-                        class="text-xs uppercase py-3 font-bold block <?php echo $currentPage == 'daftar_pengguna.php' ? 'text-secondary-500 hover:text-secondary-600' : 'text-blueGray-700 hover:text-blueGray-500'; ?>">
+                        class="text-sm uppercase py-3 font-bold block <?php echo $currentPage == 'daftar_pengguna.php' ? 'text-secondary-500 hover:text-secondary-600' : 'text-blueGray-700 hover:text-blueGray-500'; ?>">
                         <i class="fas fa-table mr-2 text-sm <?php echo $currentPage == 'daftar_pengguna.php' ? 'opacity-75' : 'text-blueGray-300'; ?>"></i> Daftar Pengguna
                     </a>
                 </li>
@@ -128,7 +127,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                 <li class="items-center">
                     <a
                         href="<?php echo $currentPage == 'pengaturan_akun.php' ? 'javascript:void(0);' : './pengaturan_akun.php'; ?>"
-                        class="text-xs uppercase py-3 font-bold block <?php echo $currentPage == 'pengaturan_akun.php' ? 'text-secondary-500 hover:text-secondary-600' : 'text-blueGray-700 hover:text-blueGray-500'; ?>">
+                        class="text-sm uppercase py-3 font-bold block <?php echo $currentPage == 'pengaturan_akun.php' ? 'text-secondary-500 hover:text-secondary-600' : 'text-blueGray-700 hover:text-blueGray-500'; ?>">
                         <i class="fas fa-tools mr-2 text-sm <?php echo $currentPage == 'pengaturan_akun.php' ? 'opacity-75' : 'text-blueGray-300'; ?>"></i> Pengaturan Akun
                     </a>
                 </li>

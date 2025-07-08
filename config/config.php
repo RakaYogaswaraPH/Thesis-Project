@@ -50,7 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["login"])) {
                     'role' => $role
                 ];
 
-                echo "<script>alert('Login berhasil!'); location.href='test.php';</script>";
+                echo "<script>alert('Login berhasil!'); location.href='pages/pengguna/beranda.php';</script>";
                 exit;
             } elseif ($role === 'guru') {
                 $detail = mysqli_query($connect, "SELECT * FROM guru_detail WHERE user_id = '$user_id'");
@@ -131,6 +131,29 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["register"])) {
 
     echo "<script>alert('Pendaftaran berhasil!'); location.href='pages/pengguna/home.php';</script>";
     exit;
+}
+
+function getGreeting()
+{
+    date_default_timezone_set('Asia/Jakarta');
+    $hour = date('H');
+
+    if ($hour >= 5 && $hour < 11) {
+        return "Selamat Pagi";
+    } elseif ($hour >= 11 && $hour < 15) {
+        return "Selamat Siang";
+    } elseif ($hour >= 15 && $hour < 18) {
+        return "Selamat Sore";
+    } else {
+        return "Selamat Malam";
+    }
+}
+
+function getPenggunaById($id)
+{
+    global $connect;
+    $query = mysqli_query($connect, "SELECT u.email, p.* FROM users u JOIN pengguna_detail p ON u.id = p.user_id WHERE u.id = '$id'");
+    return mysqli_fetch_assoc($query);
 }
 
 

@@ -23,144 +23,119 @@ $pengguna = $_SESSION['admin'];
 
 <body class="font-[poppins] text-gray-700 antialiased">
   <div id="root">
-    <!-- Navbar -->
     <?php include '../../components/admin/Navbar.php'; ?>
-    <!-- End Of Navbar -->
     <div class="relative md:ml-64 bg-gray-50">
       <nav class="absolute top-0 left-0 w-full z-10 bg-transparent md:flex-row md:flex-nowrap md:justify-start flex items-center p-4">
         <div class="w-full mx-autp items-center flex justify-between md:flex-nowrap flex-wrap md:px-10 px-4">
-          <a class="text-white text-xl uppercase hidden lg:inline-block font-semibold">Pengaturan Akun</a>
-          <!-- Navbar -->
+          <a class="text-white text-2xl uppercase hidden lg:inline-block font-semibold mt-6">Pengaturan Akun</a>
           <?php include '../../components/admin/Profile.php'; ?>
-          <!-- End Of Navbar -->
         </div>
       </nav>
 
-      <!-- Header -->
-      <div class="relative bg-secondary-400 md:pt-32 pb-20 pt-12">
-      </div>
+      <div class="relative bg-secondary-400 md:pt-32 pb-20 pt-12"></div>
 
+      <!-- Form Pengguna -->
       <div class="px-4 md:px-10 mx-auto w-full -m-24">
         <div class="flex flex-wrap">
           <div class="w-full lg:w-8/12 px-4">
-            <div class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-gray-100 border-0">
-              <div class="rounded-t bg-white mb-0 px-6 py-6">
-                <div class="text-center flex justify-between">
-                  <h6 class="text-gray-700 text-xl font-bold">
-                    Akun Saya
-                  </h6>
-                  <button
-                    class="bg-primary-500 text-white active:bg-primary-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
-                    type="button">
-                    Ubah
-                  </button>
+            <div class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-white border border-gray-200">
+              <div class="rounded-t-lg bg-gradient-to-r from-primary-500 to-primary-400 text-white mb-0 px-6 py-6">
+                <div class="text-center flex justify-between items-center">
+                  <h6 class="text-xl font-bold"><i class="fas fa-user-cog mr-2"></i> Akun Saya</h6>
                 </div>
               </div>
+
               <div class="flex-auto px-4 lg:px-10 py-10 pt-0">
-                <form>
-                  <h6
-                    class="text-gray-400 text-sm mt-3 mb-6 font-bold uppercase">
-                    Informasi Pengguna
-                  </h6>
+                <form action="../../config/update_admin.php" method="POST">
+                  <h6 class="text-primary-500 text-sm mt-3 mb-6 font-bold uppercase"><i class="fas fa-info-circle mr-2"></i>Informasi Pengguna</h6>
                   <div class="flex flex-wrap">
                     <div class="w-full lg:w-6/12 px-4">
                       <div class="relative w-full mb-3">
-                        <label
-                          class="block uppercase text-gray-600 text-xs font-bold mb-2"
-                          htmlFor="grid-password">
-                          Username
-                        </label>
-                        <input
-                          type="text"
-                          class="border-0 px-3 py-3 placeholder-gray-300 text-gray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                          value="<?= htmlspecialchars($pengguna['nama_admin']) ?>" />
+                        <label class="block uppercase text-gray-600 text-xs font-bold mb-2">Nama Pengguna</label>
+                        <div class="flex items-center border rounded shadow bg-white px-3">
+                          <i class="fas fa-user text-gray-400 mr-2"></i>
+                          <input name="nama_admin" type="text" required value="<?= htmlspecialchars($pengguna['nama_admin']) ?>" class="border-0 py-3 placeholder-gray-300 text-gray-600 bg-white text-sm w-full focus:outline-none" />
+                        </div>
                       </div>
                     </div>
                     <div class="w-full lg:w-6/12 px-4">
                       <div class="relative w-full mb-3">
-                        <label
-                          class="block uppercase text-gray-600 text-xs font-bold mb-2"
-                          htmlFor="grid-password">
-                          Email address
-                        </label>
-                        <input
-                          type="email"
-                          class="border-0 px-3 py-3 placeholder-gray-300 text-gray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                          value="<?= htmlspecialchars($pengguna['email']) ?>" />
+                        <label class="block uppercase text-gray-600 text-xs font-bold mb-2">Alamat Email</label>
+                        <div class="flex items-center border rounded shadow bg-white px-3">
+                          <i class="fas fa-envelope text-gray-400 mr-2"></i>
+                          <input name="email" type="email" required value="<?= htmlspecialchars($pengguna['email']) ?>" class="border-0 py-3 placeholder-gray-300 text-gray-600 bg-white text-sm w-full focus:outline-none" />
+                        </div>
                       </div>
                     </div>
                     <div class="w-full px-4">
                       <div class="relative w-full mb-3">
-                        <label
-                          class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                          htmlFor="grid-password">
-                          Address
-                        </label>
-                        <input
-                          type="text"
-                          class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                          value="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09" />
+                        <label class="block uppercase text-gray-600 text-xs font-bold mb-2">Password Lama</label>
+                        <div class="flex items-center border rounded shadow bg-white px-3">
+                          <i class="fas fa-lock text-gray-400 mr-2"></i>
+                          <input name="old_password" type="password" placeholder="Masukkan password lama..." class="border-0 py-3 placeholder-gray-300 text-gray-600 bg-white text-sm w-full focus:outline-none" />
+                        </div>
+                      </div>
+                      <div class="relative w-full mb-3">
+                        <label class="block uppercase text-gray-600 text-xs font-bold mb-2">Password Baru</label>
+                        <div class="flex items-center border rounded shadow bg-white px-3">
+                          <i class="fas fa-key text-gray-400 mr-2"></i>
+                          <input name="new_password" type="password" placeholder="Masukkan password baru..." class="border-0 py-3 placeholder-gray-300 text-gray-600 bg-white text-sm w-full focus:outline-none" />
+                        </div>
+                      </div>
+                      <div class="relative w-full mb-6">
+                        <label class="block uppercase text-gray-600 text-xs font-bold mb-2">Konfirmasi Password</label>
+                        <div class="flex items-center border rounded shadow bg-white px-3">
+                          <i class="fas fa-check-circle text-gray-400 mr-2"></i>
+                          <input name="confirm_password" type="password" placeholder="Konfirmasi password baru..." class="border-0 py-3 placeholder-gray-300 text-gray-600 bg-white text-sm w-full focus:outline-none" />
+                        </div>
                       </div>
                     </div>
                   </div>
-                  <hr class="mt-6 border-b-1 border-gray-300" />
-                  <div class="flex flex-wrap">
-                    <div class="w-full lg:w-12/12 px-4">
-                      <div class="relative w-full mb-3">
-                      </div>
-                    </div>
+                  <div class="text-right mt-4">
+                    <button type="submit" class="bg-primary-500 text-white active:bg-primary-600 font-bold uppercase text-xs px-6 py-2 rounded shadow hover:shadow-lg transition duration-150">
+                      <i class="fas fa-save mr-2"></i> Simpan Perubahan
+                    </button>
                   </div>
                 </form>
               </div>
             </div>
           </div>
 
+          <!-- Profil Pengguna -->
           <div class="w-full lg:w-4/12 px-4 mb-32">
-            <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-10 shadow-xl rounded-lg">
-              <div class="px-6">
-                <div class="flex flex-wrap justify-center">
-                  <div class="w-full px-4 flex justify-center">
-                    <div class="relative w-full px-4 flex justify-center">
-                      <div class="absolute -top-16 mt-6">
-                        <img alt="Profile" src="../../src/images/Profile.png"
-                          class="shadow-xl rounded-full w-32 h-32 object-cover border-4 border-white" />
-                      </div>
-                    </div>
-                  </div>
-                  <div class="w-full px-4 text-center mt-20">
-                    <div class="flex justify-center py-4 lg:pt-4 pt-8">
-                    </div>
+            <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-10 shadow-xl rounded-lg overflow-hidden">
+              <div class="h-24"></div>
+
+              <div class="px-6 -mt-16">
+                <div class="flex justify-center">
+                  <div class="relative">
+                    <img alt="Profile" src="../../src/images/Profile.png"
+                      class="shadow-xl rounded-full w-32 h-32 object-cover border-4 border-white" />
                   </div>
                 </div>
 
-                <div class="text-center mt-12">
-                  <h3
-                    class="text-xl font-semibold leading-normal mb-2 text-gray-700">
-                    <?= htmlspecialchars($pengguna['nama_admin']) ?>
+                <div class="text-center mt-6">
+                  <h3 class="text-xl font-semibold text-gray-800">
+                    <i class="fas fa-user mr-2 text-primary-500"></i><?= htmlspecialchars($pengguna['nama_admin']) ?>
                   </h3>
-                  <div
-                    class="text-sm leading-normal mt-0 mb-2 text-gray-700 font-bold uppercase">
-                    <i class=" mr-2 text-lg text-gray-700"></i>
-                    Pengelola Paud
+                  <div class="mt-2">
+                    <span class="inline-flex items-center px-3 py-1 text-xs font-semibold bg-primary-100 text-primary-700 rounded-full uppercase tracking-wide">
+                      <i class="fas fa-user-shield mr-1"></i> Pengelola Paud
+                    </span>
                   </div>
                 </div>
-                <div
-                  class="mt-10 py-10 border-t border-gray-200 text-center">
-                  <div class="flex flex-wrap justify-center">
-                  </div>
+
+                <div class="mt-6 py-4 border-t border-gray-200 text-center">
+                  <p class="text-gray-500 text-sm">POS PAUD MAWAR HIDAYAH</p>
                 </div>
               </div>
             </div>
           </div>
+
         </div>
-
-        <!-- Navbar -->
         <?php include '../../components/admin/footer.php'; ?>
-        <!-- End Of Navbar -->
-
       </div>
     </div>
-  </div>
 </body>
 
 </html>

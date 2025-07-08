@@ -1,13 +1,12 @@
 <?php
+include '../../config/config.php';
+include '../../config/request.php';
 session_start();
 if (!isset($_SESSION['admin'])) {
   header("Location: ../../login.php");
   exit;
 }
 $pengguna = $_SESSION['admin'];
-
-include '../../config/config.php';
-include '../../config/request.php';
 ?>
 
 <!DOCTYPE html>
@@ -31,7 +30,7 @@ include '../../config/request.php';
     <div class="relative md:ml-64 bg-gray-50">
       <nav class="absolute top-0 left-0 w-full z-10 bg-transparent md:flex-row md:flex-nowrap md:justify-start flex items-center p-4">
         <div class="w-full mx-autp items-center flex justify-between md:flex-nowrap flex-wrap md:px-10 px-4">
-          <a class="text-white text-xl uppercase hidden lg:inline-block font-semibold">Daftar Pengguna</a>
+          <a class="text-white text-2xl uppercase hidden lg:inline-block font-semibold mt-6">Daftar Pengguna</a>
           <!-- Navbar -->
           <?php include '../../components/admin/Profile.php'; ?>
           <!-- End Of Navbar -->
@@ -67,23 +66,23 @@ include '../../config/request.php';
                   <thead>
                     <tr>
                       <th
-                        class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-gray-50 text-gray-500 border-gray-100">
+                        class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-gray-100 text-gray-500 border-gray-100">
                         No
                       </th>
                       <th
-                        class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-gray-50 text-gray-500 border-gray-100">
+                        class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-gray-100 text-gray-500 border-gray-100">
                         Nama Guru
                       </th>
                       <th
-                        class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-gray-50 text-gray-500 border-gray-100">
+                        class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-gray-100 text-gray-500 border-gray-100">
                         Jabatan
                       </th>
                       <th
-                        class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-gray-50 text-gray-500 border-gray-100">
+                        class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-gray-100 text-gray-500 border-gray-100">
                         Nomor Telepon
                       </th>
                       <th
-                        class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-gray-50 text-gray-500 border-gray-100"></th>
+                        class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-gray-100 text-gray-500 border-gray-100"></th>
                     </tr>
                     </tr>
                   </thead>
@@ -100,7 +99,7 @@ include '../../config/request.php';
                           <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"><?= htmlspecialchars($row['nama_guru']) ?></td>
                           <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"><?= htmlspecialchars($row['jabatan']) ?></td>
                           <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"><?= htmlspecialchars($row['nomor_telepon']) ?></td>
-                          <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-right">
+                          <td class="relative border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-right">
                             <a href="#!" class="text-gray-500 block py-1 px-3" onclick="openDropdown(event,'dropdown-guru-<?= $row['user_id'] ?>')">
                               <i class="fas fa-ellipsis-v"></i>
                             </a>
