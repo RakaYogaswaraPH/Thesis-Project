@@ -1,7 +1,7 @@
 <?php
 include './config/config.php';
 session_start();
-$_SESSION['user_id'] = 18; // contoh ID pengguna yang ada
+$_SESSION['user_id'] = 19; // contoh ID pengguna yang ada
 
 
 // Koneksi ke database

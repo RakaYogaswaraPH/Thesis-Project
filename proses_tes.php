@@ -57,7 +57,8 @@ foreach ($nilai_per_kriteria as $kriteria => $total_nilai) {
     $total_cpi += $sub_index[$kriteria];
 }
 
-$total_cpi = round($total_cpi, 2);
+$total_cpi = round($total_cpi * 30, 0); // Skala jadi 150 maksimum
+
 
 // Fungsi kategori IQ
 function kategoriIQ($cpi)

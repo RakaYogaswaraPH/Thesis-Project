@@ -6,6 +6,35 @@ if (!isset($_SESSION['pengguna'])) {
     exit;
 }
 $pengguna = getPenggunaById($_SESSION['pengguna']['id']);
+
+/**
+ * Fungsi untuk mengambil soal dan jawaban dari database
+ */
+function getSoalCPI($connect)
+{
+    $sql = "SELECT s.id AS soal_id, s.kriteria, s.pertanyaan, j.id AS jawaban_id, j.jawaban, j.nilai_konversi
+            FROM soal_cpi s
+            JOIN jawaban_cpi j ON s.id = j.soal_id
+            ORDER BY s.id ASC";
+
+    $result = $connect->query($sql);
+    $data = [];
+
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $data[$row['soal_id']]['pertanyaan'] = $row['pertanyaan'];
+            $data[$row['soal_id']]['kriteria'] = $row['kriteria'];
+            $data[$row['soal_id']]['jawaban'][] = [
+                'id' => $row['jawaban_id'],
+                'text' => $row['jawaban'],
+                'nilai' => $row['nilai_konversi']
+            ];
+        }
+    }
+    return $data;
+}
+
+$soal_data = getSoalCPI($connect);
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -19,8 +48,8 @@ $pengguna = getPenggunaById($_SESSION['pengguna']['id']);
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 
 <body class="font-[poppins] text-gray-800 overflow-x-hidden bg-secondary-400">
@@ -38,44 +67,22 @@ $pengguna = getPenggunaById($_SESSION['pengguna']['id']);
                 <p class="text-gray-600 text-base mb-4">Jawablah setiap pertanyaan di bawah ini dengan jujur. Pilih satu jawaban yang paling sesuai.</p>
             </div>
 
-            <!-- Contoh Soal -->
-            <form action="#" method="post" class="space-y-8">
-                <div class="bg-gradient-to-r from-emerald-50 to-teal-50 rounded-xl p-6 border border-emerald-200">
-                    <h3 class="font-semibold text-gray-800 mb-4">1. Anak lebih suka bermain dengan?</h3>
-                    <div class="space-y-3">
-                        <label class="flex items-center space-x-3">
-                            <input type="radio" name="soal1" value="visual" class="text-emerald-600">
-                            <span>Balok warna-warni dan bentuk geometri</span>
-                        </label>
-                        <label class="flex items-center space-x-3">
-                            <input type="radio" name="soal1" value="logika" class="text-emerald-600">
-                            <span>Puzzle dan teka-teki logika</span>
-                        </label>
-                        <label class="flex items-center space-x-3">
-                            <input type="radio" name="soal1" value="bahasa" class="text-emerald-600">
-                            <span>Bercerita atau bermain peran</span>
-                        </label>
+            <!-- Menampilkan Soal dari Database -->
+            <form action="hasil_tes.php" method="post" class="space-y-8">
+                <?php $no = 1;
+                foreach ($soal_data as $soal_id => $soal): ?>
+                    <div class="bg-gradient-to-r from-emerald-50 to-teal-50 rounded-xl p-6 border border-emerald-200">
+                        <h3 class="font-semibold text-gray-800 mb-4"><?= $no++ ?>. <?= htmlspecialchars($soal['pertanyaan']) ?></h3>
+                        <div class="space-y-3">
+                            <?php foreach ($soal['jawaban'] as $jawaban): ?>
+                                <label class="flex items-center space-x-3">
+                                    <input type="radio" name="jawaban[<?= $soal_id ?>]" value="<?= $jawaban['nilai'] ?>" required class="text-emerald-600">
+                                    <span><?= htmlspecialchars($jawaban['text']) ?></span>
+                                </label>
+                            <?php endforeach; ?>
+                        </div>
                     </div>
-                </div>
-
-                <!-- Soal Tambahan -->
-                <div class="bg-gradient-to-r from-emerald-50 to-teal-50 rounded-xl p-6 border border-emerald-200">
-                    <h3 class="font-semibold text-gray-800 mb-4">2. Saat mendengarkan lagu, anak biasanya...</h3>
-                    <div class="space-y-3">
-                        <label class="flex items-center space-x-3">
-                            <input type="radio" name="soal2" value="musik" class="text-emerald-600">
-                            <span>Menggerakkan tubuh mengikuti irama</span>
-                        </label>
-                        <label class="flex items-center space-x-3">
-                            <input type="radio" name="soal2" value="logika" class="text-emerald-600">
-                            <span>Mencoba memahami lirik dan maknanya</span>
-                        </label>
-                        <label class="flex items-center space-x-3">
-                            <input type="radio" name="soal2" value="visual" class="text-emerald-600">
-                            <span>Membayangkan gambar dari lirik lagu</span>
-                        </label>
-                    </div>
-                </div>
+                <?php endforeach; ?>
 
                 <!-- Tombol Submit -->
                 <div class="text-center">

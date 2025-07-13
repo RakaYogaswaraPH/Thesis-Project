@@ -11,9 +11,9 @@ $currentPage = basename($_SERVER['PHP_SELF']);
             onclick="toggleNavbar('example-collapse-sidebar')">
             <i class="fas fa-bars"></i>
         </button>
-        <a
-            class="md:block text-left md:pb-2 text-blueGray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0">
-            POS PAUD MAWAR HIDAYAH
+        <a class="flex flex-col items-center text-blueGray-600 font-bold text-sm uppercase p-4 px-0">
+            <img src="../../src/images/Logo.png" alt="Logo" class="w-24 h-24 mb-2">
+            <span>POS PAUD MAWAR HIDAYAH</span>
         </a>
         <ul class="md:hidden items-center flex flex-wrap list-none">
             <li class="inline-block relative">
@@ -70,7 +70,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
             </li>
         </ul>
         <div
-            class="md:flex md:flex-col md:items-stretch md:opacity-100 md:relative md:mt-4 md:shadow-none shadow absolute top-0 left-0 right-0 z-40 overflow-y-auto overflow-x-hidden h-auto items-center flex-1 rounded hidden"
+            class="md:flex md:flex-col md:items-stretch md:opacity-100 md:relative md:shadow-none shadow absolute top-0 left-0 right-0 z-40 overflow-y-auto overflow-x-hidden h-auto items-center flex-1 rounded hidden"
             id="example-collapse-sidebar">
             <div
                 class="md:min-w-full md:hidden block pb-4 mb-4 border-b border-solid border-blueGray-200">
@@ -91,14 +91,6 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                     </div>
                 </div>
             </div>
-            <form class="mt-6 mb-4 md:hidden">
-                <div class="mb-3 pt-0">
-                    <input
-                        type="text"
-                        placeholder="Search"
-                        class="border-0 px-3 py-2 h-12 border-solid border-blueGray-500 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-base leading-snug shadow-none outline-none focus:outline-none w-full font-normal" />
-                </div>
-            </form>
             <!-- Divider -->
             <hr class="my-4 md:min-w-full" />
             <!-- Heading -->
@@ -121,6 +113,22 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                         href="<?php echo $currentPage == 'daftar_pengguna.php' ? 'javascript:void(0);' : './daftar_pengguna.php'; ?>"
                         class="text-sm uppercase py-3 font-bold block <?php echo $currentPage == 'daftar_pengguna.php' ? 'text-secondary-500 hover:text-secondary-600' : 'text-blueGray-700 hover:text-blueGray-500'; ?>">
                         <i class="fas fa-table mr-2 text-sm <?php echo $currentPage == 'daftar_pengguna.php' ? 'opacity-75' : 'text-blueGray-300'; ?>"></i> Daftar Pengguna
+                    </a>
+                </li>
+
+                <li class="items-center">
+                    <a
+                        href="<?php echo $currentPage == 'ranking_tes.php' ? 'javascript:void(0);' : './ranking_tes.php'; ?>"
+                        class="text-sm uppercase py-3 font-bold block <?php echo $currentPage == 'ranking_tes.php' ? 'text-secondary-500 hover:text-secondary-600' : 'text-blueGray-700 hover:text-blueGray-500'; ?>">
+                        <i class="fas fa-chart-bar mr-2 text-sm <?php echo $currentPage == 'ranking_tes.php' ? 'opacity-75' : 'text-blueGray-300'; ?>"></i> Ranking Tes
+                    </a>
+                </li>
+
+                <li class="items-center">
+                    <a
+                        href="<?php echo $currentPage == 'statistik_tes.php' ? 'javascript:void(0);' : './statistik_tes.php'; ?>"
+                        class="text-sm uppercase py-3 font-bold block <?php echo $currentPage == 'statistik_tes.php' ? 'text-secondary-500 hover:text-secondary-600' : 'text-blueGray-700 hover:text-blueGray-500'; ?>">
+                        <i class="fas fa-chart-pie mr-2 text-sm <?php echo $currentPage == 'statistik_tes.php' ? 'opacity-75' : 'text-blueGray-300'; ?>"></i> Statistik Tes
                     </a>
                 </li>
 

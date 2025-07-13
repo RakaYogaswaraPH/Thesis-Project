@@ -5,8 +5,61 @@ if (!isset($_SESSION['pengguna'])) {
     header("Location: ../../login.php");
     exit;
 }
+function getRiwayatTesByUserId(mysqli $conn, int $user_id): array
+{
+    $sql = "SELECT nilai_cpi, tipe_kecerdasan, tanggal_tes 
+            FROM hasil_cpi 
+            WHERE user_id = ? 
+            ORDER BY tanggal_tes DESC 
+            LIMIT 2";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $user_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    $riwayat = [];
+    while ($row = $result->fetch_assoc()) {
+        $riwayat[] = $row;
+    }
+
+    return $riwayat;
+}
+
+function getStatistikTes($connect, $user_id)
+{
+    $query = "SELECT 
+                COUNT(*) AS total_tes,
+                ROUND(AVG(nilai_cpi), 0) AS rata_rata_nilai,
+                tipe_kecerdasan
+            FROM hasil_cpi
+            WHERE user_id = ?
+            GROUP BY tipe_kecerdasan
+            ORDER BY COUNT(*) DESC
+            LIMIT 1";
+
+    $stmt = $connect->prepare($query);
+    $stmt->bind_param("i", $user_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    $data = [
+        'total' => 0,
+        'rata_rata' => 0,
+        'tipe_terbanyak' => 'Belum Ada'
+    ];
+
+    if ($row = $result->fetch_assoc()) {
+        $data['total'] = (int)$row['total_tes'];
+        $data['rata_rata'] = (int)$row['rata_rata_nilai'];
+        $data['tipe_terbanyak'] = $row['tipe_kecerdasan'];
+    }
+
+    return $data;
+}
 
 $pengguna = getPenggunaById($_SESSION['pengguna']['id']);
+$statistik = getStatistikTes($connect, $pengguna['user_id']);
+$riwayatTes = getRiwayatTesByUserId($connect, $_SESSION['pengguna']['id']);
 $greeting = getGreeting();
 ?>
 
@@ -51,9 +104,7 @@ $greeting = getGreeting();
         <div class="bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-8 mb-8 border border-white/20">
             <div class="flex items-center mb-6">
                 <div class="bg-emerald-100 p-3 rounded-xl mr-4">
-                    <svg class="w-8 h-8 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
+                    <i class="fa-solid fa-lightbulb text-emerald-600 text-2xl"></i>
                 </div>
                 <h2 class="text-2xl font-bold text-gray-800">Tes Kecerdasan</h2>
             </div>
@@ -79,9 +130,7 @@ $greeting = getGreeting();
             <div class="bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-8 border border-white/20 hover:shadow-2xl transition-shadow duration-300">
                 <div class="flex items-center mb-6">
                     <div class="bg-blue-100 p-3 rounded-xl mr-4">
-                        <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
-                        </svg>
+                        <i class="fa-solid fa-chart-column text-blue-600 text-2xl"></i>
                     </div>
                     <h3 class="text-xl font-bold text-gray-800">Statistik Tes</h3>
                 </div>
@@ -90,56 +139,56 @@ $greeting = getGreeting();
                     <div class="space-y-4">
                         <div class="flex justify-between items-center">
                             <span class="text-gray-700">Tes Diselesaikan:</span>
-                            <span class="font-bold text-blue-600">1,247</span>
+                            <span class="font-bold text-blue-600"><?= $statistik['total'] ?></span>
                         </div>
                         <div class="flex justify-between items-center">
                             <span class="text-gray-700">Rata-rata Skor:</span>
-                            <span class="font-bold text-blue-600">127 IQ</span>
+                            <span class="font-bold text-blue-600"><?= $statistik['rata_rata'] ?> IQ</span>
                         </div>
                         <div class="flex justify-between items-center">
-                            <span class="text-gray-700">Tingkat Kesulitan:</span>
-                            <span class="font-bold text-blue-600">Menengah</span>
+                            <span class="text-gray-700">Kecerdasan Dominan:</span>
+                            <span class="font-bold text-blue-600"><?= htmlspecialchars($statistik['tipe_terbanyak']) ?></span>
                         </div>
                     </div>
                 </div>
 
-                <button class="w-full mt-6 bg-blue-500 hover:bg-blue-600 text-white font-medium py-3 px-6 rounded-xl transition-colors duration-200">
-                    Lihat Detail
-                </button>
+                <a href="riwayat_tes.php" class="w-full mt-6 bg-blue-500 hover:bg-blue-600 text-white font-medium py-3 px-6 rounded-xl text-center block transition-colors duration-200">
+                    Lihat Statistik
+                </a>
             </div>
 
             <!-- Riwayat Tes -->
             <div class="bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-8 border border-white/20 hover:shadow-2xl transition-shadow duration-300">
                 <div class="flex items-center mb-6">
                     <div class="bg-purple-100 p-3 rounded-xl mr-4">
-                        <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
+                        <i class="fa-solid fa-clock text-purple-600 text-2xl"></i>
                     </div>
                     <h3 class="text-xl font-bold text-gray-800">Riwayat Tes</h3>
                 </div>
 
                 <div class="space-y-4">
-                    <div class="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-4 border border-purple-100">
-                        <div class="flex justify-between items-start mb-2">
-                            <span class="font-medium text-gray-800">Tes IQ Logika</span>
-                            <span class="text-sm text-purple-600 font-semibold">Selesai</span>
-                        </div>
-                        <p class="text-sm text-gray-600">Skor: 132 • Tanggal: 15 Juni 2025</p>
-                    </div>
-
-                    <div class="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-4 border border-purple-100">
-                        <div class="flex justify-between items-start mb-2">
-                            <span class="font-medium text-gray-800">Tes Kemampuan Verbal</span>
-                            <span class="text-sm text-purple-600 font-semibold">Selesai</span>
-                        </div>
-                        <p class="text-sm text-gray-600">Skor: 128 • Tanggal: 10 Juni 2025</p>
-                    </div>
+                    <?php if (count($riwayatTes) > 0): ?>
+                        <?php foreach ($riwayatTes as $tes): ?>
+                            <div class="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-4 border border-purple-100">
+                                <div class="flex justify-between items-start mb-2">
+                                    <span class="font-medium text-gray-800"><?= htmlspecialchars($tes['tipe_kecerdasan']) ?></span>
+                                    <span class="text-sm text-purple-600 font-semibold">Selesai</span>
+                                </div>
+                                <p class="text-sm text-gray-600">
+                                    Skor: <?= round($tes['nilai_cpi']) ?> •
+                                    Tanggal: <?= date('d M Y', strtotime($tes['tanggal_tes'])) ?>
+                                </p>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <p class="text-gray-600 text-sm">Belum ada riwayat tes yang tersedia.</p>
+                    <?php endif; ?>
                 </div>
 
-                <button class="w-full mt-6 bg-purple-500 hover:bg-purple-600 text-white font-medium py-3 px-6 rounded-xl transition-colors duration-200">
-                    Lihat Semua Riwayat
-                </button>
+
+                <a href="riwayat_tes.php"><button class="w-full mt-6 bg-purple-500 hover:bg-purple-600 text-white font-medium py-3 px-6 rounded-xl transition-colors duration-200">
+                        Lihat Semua Riwayat
+                    </button></a>
             </div>
         </div>
 

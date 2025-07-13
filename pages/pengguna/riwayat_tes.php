@@ -1,11 +1,37 @@
 <?php
 include '../../config/config.php';
 session_start();
+
 if (!isset($_SESSION['pengguna'])) {
     header("Location: ../../login.php");
     exit;
 }
 $pengguna = getPenggunaById($_SESSION['pengguna']['id']);
+$user_id = $pengguna['user_id'];
+
+/**
+ * Ambil riwayat tes dari database berdasarkan user_id
+ */
+function getRiwayatTesByUserId($connect, $userId): array
+{
+    $sql = "SELECT nilai_cpi, kategori_iq, tipe_kecerdasan, tanggal_tes 
+            FROM hasil_cpi 
+            WHERE user_id = ? 
+            ORDER BY tanggal_tes DESC";
+
+    $stmt = $connect->prepare($sql);
+    $stmt->bind_param("i", $userId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    $riwayat = [];
+    while ($row = $result->fetch_assoc()) {
+        $riwayat[] = $row;
+    }
+    return $riwayat;
+}
+
+$riwayatTes = getRiwayatTesByUserId($connect, $user_id);
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -16,10 +42,8 @@ $pengguna = getPenggunaById($_SESSION['pengguna']['id']);
     <title>PPMH | Riwayat Tes Kecerdasan</title>
     <link rel="stylesheet" href="../../src/styles/style.css">
     <link rel="icon" href="../../src/images/Logo.png" type="image/x-icon">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 
@@ -46,33 +70,27 @@ $pengguna = getPenggunaById($_SESSION['pengguna']['id']);
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-purple-100">
-                        <tr class="hover:bg-purple-50 transition">
-                            <td class="px-4 py-3">1</td>
-                            <td class="px-4 py-3">08 Juli 2025</td>
-                            <td class="px-4 py-3">Logika & Penalaran</td>
-                            <td class="px-4 py-3 font-semibold">132</td>
-                            <td class="px-4 py-3 text-green-600 font-medium">Selesai</td>
-                        </tr>
-                        <tr class="hover:bg-purple-50 transition">
-                            <td class="px-4 py-3">2</td>
-                            <td class="px-4 py-3">03 Juli 2025</td>
-                            <td class="px-4 py-3">Verbal & Bahasa</td>
-                            <td class="px-4 py-3 font-semibold">128</td>
-                            <td class="px-4 py-3 text-green-600 font-medium">Selesai</td>
-                        </tr>
-                        <tr class="hover:bg-purple-50 transition">
-                            <td class="px-4 py-3">3</td>
-                            <td class="px-4 py-3">28 Juni 2025</td>
-                            <td class="px-4 py-3">Visual & Spasial</td>
-                            <td class="px-4 py-3 font-semibold">125</td>
-                            <td class="px-4 py-3 text-green-600 font-medium">Selesai</td>
-                        </tr>
+                        <?php if (empty($riwayatTes)): ?>
+                            <tr>
+                                <td colspan="5" class="px-4 py-4 text-center text-gray-500 italic">Belum ada data tes yang tersedia.</td>
+                            </tr>
+                        <?php else: ?>
+                            <?php foreach ($riwayatTes as $i => $tes): ?>
+                                <tr class="hover:bg-purple-50 transition">
+                                    <td class="px-4 py-3"><?= $i + 1 ?></td>
+                                    <td class="px-4 py-3"><?= date('d M Y, H:i', strtotime($tes['tanggal_tes'])) ?></td>
+                                    <td class="px-4 py-3"><?= htmlspecialchars($tes['tipe_kecerdasan']) ?></td>
+                                    <td class="px-4 py-3 font-semibold"><?= round($tes['nilai_cpi']) ?></td>
+                                    <td class="px-4 py-3 text-green-600 font-medium">Selesai</td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
                     </tbody>
                 </table>
             </div>
 
             <div class="mt-6 text-sm text-gray-500">
-                <p>* Data ini merupakan hasil tes simulasi yang dilakukan sebelumnya.</p>
+                <p>* Data ini merupakan riwayat dari hasil tes CPI yang telah Anda lakukan sebelumnya.</p>
             </div>
         </div>
 

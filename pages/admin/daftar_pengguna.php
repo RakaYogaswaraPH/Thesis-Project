@@ -50,7 +50,7 @@ $pengguna = $_SESSION['admin'];
                 <div class="flex flex-wrap items-center">
                   <div
                     class="relative w-full max-w-full flex-grow flex-1">
-                    <h3 class="font-semibold text-lg text-gray-700">
+                    <h3 class="font-semibold text-xl text-gray-700">
                       Daftar Guru
                     </h3>
                   </div>
@@ -94,7 +94,7 @@ $pengguna = $_SESSION['admin'];
                     if (mysqli_num_rows($query_guru) > 0) {
                       while ($row = mysqli_fetch_assoc($query_guru)) {
                     ?>
-                        <tr>
+                        <tr class="hover:bg-gray-50">
                           <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"><?= $no++ ?></td>
                           <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"><?= htmlspecialchars($row['nama_guru']) ?></td>
                           <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"><?= htmlspecialchars($row['jabatan']) ?></td>
@@ -132,7 +132,7 @@ $pengguna = $_SESSION['admin'];
                 <div class="flex flex-wrap items-center">
                   <div
                     class="relative w-full max-w-full flex-grow flex-1">
-                    <h3 class="font-semibold text-lg text-white">
+                    <h3 class="font-semibold text-xl text-white">
                       Daftar Siswa
                     </h3>
                   </div>
@@ -183,7 +183,7 @@ $pengguna = $_SESSION['admin'];
                     if (mysqli_num_rows($query_siswa) > 0) {
                       while ($row = mysqli_fetch_assoc($query_siswa)) {
                     ?>
-                        <tr>
+                        <tr class="hover:bg-primary-500">
                           <td class="border-t-0 px-6 py-4 text-xs"><?= $no++ ?></td>
                           <td class="border-t-0 px-6 py-4 text-xs"><?= htmlspecialchars($row['nama_anak']) ?></td>
                           <td class="border-t-0 px-6 py-4 text-xs"><?= htmlspecialchars($row['kelas']) ?></td>
