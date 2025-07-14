@@ -24,115 +24,6 @@ function hitungPenggunaBaruHariIni()
 }
 
 
-//* Users Config *\\
-// Login Handler
-if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["login"])) {
-    $email = mysqli_real_escape_string($connect, $_POST["email"]);
-    $password = $_POST["password"];
-
-    $query = mysqli_query($connect, "SELECT * FROM users WHERE email='$email'");
-
-    if (mysqli_num_rows($query) === 1) {
-        $user = mysqli_fetch_assoc($query);
-
-        if (password_verify($password, $user['password'])) {
-            $user_id = $user['id'];
-            $role = $user['role'];
-
-            if ($role === 'pengguna') {
-                $detail = mysqli_query($connect, "SELECT * FROM pengguna_detail WHERE user_id = '$user_id'");
-                $data = mysqli_fetch_assoc($detail);
-
-                $_SESSION['pengguna'] = [
-                    'id' => $user_id,
-                    'email' => $user['email'],
-                    'nama_anak' => $data['nama_anak'],
-                    'role' => $role
-                ];
-
-                echo "<script>alert('Login berhasil!'); location.href='pages/pengguna/beranda.php';</script>";
-                exit;
-            } elseif ($role === 'guru') {
-                $detail = mysqli_query($connect, "SELECT * FROM guru_detail WHERE user_id = '$user_id'");
-                $data = mysqli_fetch_assoc($detail);
-
-                $_SESSION['guru'] = [
-                    'id' => $user_id,
-                    'email' => $user['email'],
-                    'nama_guru' => $data['nama_guru'],
-                    'jabatan' => $data['jabatan'],
-                    'role' => $role
-                ];
-
-                echo "<script>alert('Login berhasil!'); location.href='pages/guru/home.php';</script>";
-                exit;
-            } elseif ($role === 'admin') {
-                $detail = mysqli_query($connect, "SELECT * FROM admin_detail WHERE user_id = '$user_id'");
-                $data = mysqli_fetch_assoc($detail);
-
-                $_SESSION['admin'] = [
-                    'id' => $user_id,
-                    'email' => $user['email'],
-                    'nama_admin' => $data['nama_admin'],
-                    'role' => $role
-                ];
-
-                echo "<script>alert('Login berhasil!'); location.href='pages/admin/dashboard.php';</script>";
-                exit;
-            } else {
-                echo "<script>alert('Role tidak dikenali!'); history.back();</script>";
-                exit;
-            }
-        } else {
-            echo "<script>alert('Password salah!'); history.back();</script>";
-            exit;
-        }
-    } else {
-        echo "<script>alert('Email tidak ditemukan!'); history.back();</script>";
-        exit;
-    }
-}
-
-// Register Handler
-if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["register"])) {
-    $email = mysqli_real_escape_string($connect, $_POST['email']);
-    $password = mysqli_real_escape_string($connect, $_POST['password']);
-    $re_password = mysqli_real_escape_string($connect, $_POST['re_password']);
-    $nama_anak = mysqli_real_escape_string($connect, $_POST['nama_anak']);
-    $kelas = $_POST['kelas'];
-    $jenis_kelamin = $_POST['jenis_kelamin'];
-    $nama_orangtua = mysqli_real_escape_string($connect, $_POST['nama_orangtua']);
-    $telepon = mysqli_real_escape_string($connect, $_POST['nomor_telepon']);
-
-    if ($password !== $re_password) {
-        echo "<script>alert('Password tidak cocok!'); history.back();</script>";
-        exit;
-    }
-
-    $cek = mysqli_query($connect, "SELECT * FROM users WHERE email='$email'");
-    if (mysqli_num_rows($cek) > 0) {
-        echo "<script>alert('Email sudah digunakan!'); history.back();</script>";
-        exit;
-    }
-
-    $hash = password_hash($password, PASSWORD_DEFAULT);
-    mysqli_query($connect, "INSERT INTO users (email, password, role) VALUES ('$email', '$hash', 'pengguna')");
-    $user_id = mysqli_insert_id($connect);
-
-    mysqli_query($connect, "INSERT INTO pengguna_detail (user_id, nama_anak, kelas, jenis_kelamin, nama_orangtua, nomor_telepon)
-        VALUES ('$user_id', '$nama_anak', '$kelas', '$jenis_kelamin', '$nama_orangtua', '$telepon')");
-
-    $_SESSION['pengguna'] = [
-        'id' => $user_id,
-        'nama_anak' => $nama_anak,
-        'email' => $email,
-        'role' => 'pengguna'
-    ];
-
-    echo "<script>alert('Pendaftaran berhasil!'); location.href='pages/pengguna/home.php';</script>";
-    exit;
-}
-
 function getGreeting()
 {
     date_default_timezone_set('Asia/Jakarta');
@@ -157,7 +48,6 @@ function getPenggunaById($id)
 }
 
 
-// Tangani aksi ubah dan hapus guru
 function tambahGuru($connect, $data)
 {
     $email = mysqli_real_escape_string($connect, $data['email']);
@@ -246,4 +136,135 @@ function hapusSiswa($connect, $user_id)
     mysqli_query($connect, "DELETE FROM pengguna_detail WHERE user_id='$id'");
     mysqli_query($connect, "DELETE FROM users WHERE id='$id'");
     return true;
+}
+
+function getJumlahPengguna($connect)
+{
+    $result = mysqli_query($connect, "SELECT COUNT(*) as total FROM pengguna_detail");
+    $data = mysqli_fetch_assoc($result);
+    return $data['total'];
+}
+
+function getPenggunaBaruHariIni($connect)
+{
+    $hari_ini = date('Y-m-d');
+    $result = mysqli_query($connect, "SELECT COUNT(*) as total FROM pengguna_detail WHERE DATE(created_at) = '$hari_ini'");
+    $data = mysqli_fetch_assoc($result);
+    return $data['total'];
+}
+
+function hitungPersentasePengguna($jumlah_total, $jumlah_baru)
+{
+    if ($jumlah_total <= 0) return 0;
+    $jumlah_lama = $jumlah_total - $jumlah_baru;
+    return $jumlah_lama > 0 ? ($jumlah_baru / $jumlah_lama) * 100 : 100;
+}
+
+function getStatTesCPI($connect)
+{
+    $today = date('Y-m-d');
+    $yesterday = date('Y-m-d', strtotime('-1 day'));
+
+    $result_today = mysqli_query($connect, "SELECT COUNT(*) as total FROM hasil_cpi WHERE DATE(tanggal_tes) = '$today'");
+    $result_yesterday = mysqli_query($connect, "SELECT COUNT(*) as total FROM hasil_cpi WHERE DATE(tanggal_tes) = '$yesterday'");
+    $result_total = mysqli_query($connect, "SELECT COUNT(*) as total FROM hasil_cpi");
+
+    $total_today = mysqli_fetch_assoc($result_today)['total'];
+    $total_yesterday = mysqli_fetch_assoc($result_yesterday)['total'];
+    $total_all = mysqli_fetch_assoc($result_total)['total'];
+
+    $persentase = 0;
+    $ikon = 'fa-arrow-up';
+    $warna = 'text-emerald-500';
+
+    if ($total_yesterday > 0) {
+        $persentase = ($total_today / $total_yesterday) * 100;
+        if ($total_today < $total_yesterday) {
+            $ikon = 'fa-arrow-down';
+            $warna = 'text-orange-500';
+        }
+    }
+
+    return [
+        'jumlah_tes' => $total_all,
+        'persentase' => $persentase,
+        'ikon' => $ikon,
+        'warna' => $warna
+    ];
+}
+
+function getPengikutTes($connect)
+{
+    return mysqli_query($connect, "SELECT nama_anak, kelas, jenis_kelamin, nama_orangtua FROM pengguna_detail ORDER BY nama_anak ASC");
+}
+
+function getRankingTertinggi($connect, $limit = 5)
+{
+    $query = "
+    SELECT pd.nama_anak, pd.kelas, pd.jenis_kelamin, hc.nilai_cpi
+    FROM hasil_cpi hc
+    INNER JOIN (
+        SELECT user_id, MAX(tanggal_tes) as latest
+        FROM hasil_cpi
+        GROUP BY user_id
+    ) latest_hc ON hc.user_id = latest_hc.user_id AND hc.tanggal_tes = latest_hc.latest
+    INNER JOIN pengguna_detail pd ON pd.user_id = hc.user_id
+    ORDER BY hc.nilai_cpi DESC
+    LIMIT $limit";
+    return mysqli_query($connect, $query);
+}
+
+function getNilaiTertinggi($connect)
+{
+    $query = "
+    SELECT pd.nama_anak, pd.kelas, hc.nilai_cpi
+    FROM hasil_cpi hc
+    INNER JOIN (
+    SELECT user_id, MAX(tanggal_tes) AS latest
+    FROM hasil_cpi
+    GROUP BY user_id
+    ) latest_hc ON hc.user_id = latest_hc.user_id AND hc.tanggal_tes = latest_hc.latest
+    INNER JOIN pengguna_detail pd ON pd.user_id = hc.user_id
+    ORDER BY hc.nilai_cpi DESC
+    LIMIT 1 ";
+    $result = mysqli_query($connect, $query);
+    return mysqli_fetch_assoc($result);
+}
+
+function getDataRankingTerbaru($connect)
+{
+    $query = "
+        SELECT hc.user_id, pd.nama_anak, pd.kelas, pd.jenis_kelamin, hc.nilai_cpi
+        FROM hasil_cpi hc
+        INNER JOIN (
+            SELECT user_id, MAX(tanggal_tes) as latest
+            FROM hasil_cpi
+            GROUP BY user_id
+        ) latest_hc ON hc.user_id = latest_hc.user_id AND hc.tanggal_tes = latest_hc.latest
+        INNER JOIN pengguna_detail pd ON pd.user_id = hc.user_id
+        ORDER BY hc.nilai_cpi DESC
+    ";
+
+    return mysqli_query($connect, $query);
+}
+
+
+function getJumlahTesPerPengguna($connect)
+{
+    $query = "
+        SELECT user_id, COUNT(*) as jumlah_tes
+        FROM hasil_cpi
+        GROUP BY user_id
+    ";
+
+    $result = mysqli_query($connect, $query);
+
+    $data = [];
+    if ($result && mysqli_num_rows($result) > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $data[$row['user_id']] = $row['jumlah_tes'];
+        }
+    }
+
+    return $data;
 }

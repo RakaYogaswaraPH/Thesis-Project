@@ -1,12 +1,12 @@
 <?php
 include '../../config/config.php';
 session_start();
-if (!isset($_SESSION['admin'])) {
+if (!isset($_SESSION['guru'])) {
     header("Location: ../../login.php");
     exit;
 }
 
-$pengguna = $_SESSION['admin'];
+$pengguna = $_SESSION['guru'];
 $result = getDataRankingTerbaru($connect);
 $jumlahTes = getJumlahTesPerPengguna($connect);
 
@@ -32,7 +32,7 @@ $jumlahTes = getJumlahTesPerPengguna($connect);
 <body class="font-[poppins] text-gray-700 antialiased">
     <div id="root">
         <!-- Navbar -->
-        <?php include '../../components/admin/Navbar.php'; ?>
+        <?php include '../../components/guru/Navbar.php'; ?>
         <!-- End Of Navbar -->
 
         <div class="relative md:ml-64 bg-gray-50">

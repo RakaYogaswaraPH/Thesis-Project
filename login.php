@@ -1,6 +1,7 @@
 <?php
 session_start();
 include './config/config.php';
+include './config/request.php';
 ?>
 
 <!DOCTYPE html>

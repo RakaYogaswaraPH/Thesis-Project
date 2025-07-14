@@ -1,6 +1,7 @@
 <?php
 include '../../config/config.php';
 session_start();
+
 if (!isset($_SESSION['admin'])) {
   header("Location: ../../login.php");
   exit;
@@ -8,69 +9,25 @@ if (!isset($_SESSION['admin'])) {
 
 $pengguna = $_SESSION['admin'];
 $greeting = getGreeting();
-$jumlah_pengguna = hitungJumlahPengguna();
-$pengguna_baru = hitungPenggunaBaruHariIni();
 
-// Hitung pertumbuhan (%)
-$persentase = 0;
-if ($jumlah_pengguna > 0 && $pengguna_baru > 0) {
-  $jumlah_lama = $jumlah_pengguna - $pengguna_baru;
-  $persentase = $jumlah_lama > 0 ? ($pengguna_baru / $jumlah_lama) * 100 : 100;
-}
+// Pengguna
+$jumlah_pengguna = getJumlahPengguna($connect);
+$pengguna_baru = getPenggunaBaruHariIni($connect);
+$persentase = hitungPersentasePengguna($jumlah_pengguna, $pengguna_baru);
 $ikon_tren = $persentase >= 0 ? 'fa-arrow-up' : 'fa-arrow-down';
 $warna_tren = $persentase >= 0 ? 'text-emerald-500' : 'text-orange-500';
 
-// Ambil semua pengguna yang terdaftar
-$query_pengikut = mysqli_query($connect, "SELECT nama_anak, kelas, jenis_kelamin, nama_orangtua FROM pengguna_detail ORDER BY nama_anak ASC");
-// Ambil 5 nilai CPI tertinggi dan nama anaknya
-$query_ranking = mysqli_query($connect, "
-  SELECT pd.nama_anak, hc.nilai_cpi
-  FROM (
-    SELECT user_id, MAX(tanggal_tes) as tanggal_terbaru
-    FROM hasil_cpi
-    GROUP BY user_id
-  ) latest
-  JOIN hasil_cpi hc ON hc.user_id = latest.user_id AND hc.tanggal_tes = latest.tanggal_terbaru
-  JOIN pengguna_detail pd ON pd.user_id = hc.user_id
-  ORDER BY hc.nilai_cpi DESC
-  LIMIT 5
-");
+// Tes CPI
+$tes = getStatTesCPI($connect);
+$jumlah_tes = $tes['jumlah_tes'];
+$persentase_tes = $tes['persentase'];
+$ikon_tes = $tes['ikon'];
+$warna_tes = $tes['warna'];
 
-// Hitung total tes
-$query_total_tes = mysqli_query($connect, "SELECT COUNT(*) as total FROM hasil_cpi");
-$row_total_tes = mysqli_fetch_assoc($query_total_tes);
-$jumlah_tes = $row_total_tes['total'];
-
-// Hitung pertumbuhan tes dari hari sebelumnya
-$hari_ini = date('Y-m-d');
-$kemarin = date('Y-m-d', strtotime('-1 day'));
-
-$query_hari_ini = mysqli_query($connect, "SELECT COUNT(*) as total FROM hasil_cpi WHERE DATE(tanggal_tes) = '$hari_ini'");
-$query_kemarin = mysqli_query($connect, "SELECT COUNT(*) as total FROM hasil_cpi WHERE DATE(tanggal_tes) = '$kemarin'");
-$total_hari_ini = mysqli_fetch_assoc($query_hari_ini)['total'];
-$total_kemarin = mysqli_fetch_assoc($query_kemarin)['total'];
-
-$persentase_tes = 0;
-$ikon_tes = 'fa-arrow-up';
-$warna_tes = 'text-emerald-500';
-if ($total_kemarin > 0) {
-  $persentase_tes = ($total_hari_ini / $total_kemarin) * 100;
-  if ($total_hari_ini < $total_kemarin) {
-    $ikon_tes = 'fa-arrow-down';
-    $warna_tes = 'text-orange-500';
-  }
-}
-
-$query_tertinggi = mysqli_query($connect, "
-  SELECT pd.nama_anak, pd.kelas, hc.nilai_cpi
-  FROM hasil_cpi hc
-  JOIN pengguna_detail pd ON pd.user_id = hc.user_id
-  ORDER BY hc.nilai_cpi DESC
-  LIMIT 1
-");
-$data_tertinggi = mysqli_fetch_assoc($query_tertinggi);
-
-
+// Tabel & Ranking
+$query_pengikut = getPengikutTes($connect);
+$query_ranking = getRankingTertinggi($connect);
+$data_tertinggi = getNilaiTertinggi($connect);
 ?>
 <!DOCTYPE html>
 <html>
@@ -105,8 +62,6 @@ $data_tertinggi = mysqli_fetch_assoc($query_tertinggi);
       <div class="relative bg-secondary-400 md:pt-32 pb-32 pt-12">
         <div class="px-4 md:px-10 mx-auto w-full">
           <div>
-
-            <!-- STATS -->
             <!-- STATS -->
             <div class="flex flex-wrap justify-center gap-y-4">
               <!-- Card 1: Jumlah Pengguna -->
@@ -205,11 +160,9 @@ $data_tertinggi = mysqli_fetch_assoc($query_tertinggi);
                     <h3 class="font-semibold text-base text-gray-700">Pengikut Tes</h3>
                   </div>
                   <div class="relative w-full px-4 max-w-full flex-grow flex-1 text-right">
-                    <a href="daftar_pengguna.php">
-                      <button class="bg-indigo-500 text-white active:bg-indigo-600 text-xs font-bold uppercase px-3 py-2 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button">
-                        Lihat Semua
-                      </button>
-                    </a>
+                    <button class="bg-indigo-500 text-white active:bg-indigo-600 text-xs font-bold uppercase px-3 py-2 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button">
+                      <a href="daftar_pengguna.php">Lihat Semua</a>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -264,7 +217,7 @@ $data_tertinggi = mysqli_fetch_assoc($query_tertinggi);
                   </div>
                   <div class="relative w-full px-4 max-w-full flex-grow flex-1 text-right">
                     <button class="bg-indigo-500 text-white active:bg-indigo-600 text-xs font-bold uppercase px-3 py-2 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button">
-                      Lihat Semua
+                      <a href="ranking_tes.php">Lihat Semua</a>
                     </button>
                   </div>
                 </div>
