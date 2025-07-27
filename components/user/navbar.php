@@ -24,7 +24,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                     class="text-gray-700 hover:text-primary-500 font-semibold transition-colors duration-300 relative after:absolute after:bottom-0 after:left-0 after:bg-primary-500 after:h-0.5 after:w-0 hover:after:w-full after:transition-all after:duration-300">
                     Tes Kecerdasan
                 </a>
-                <a href="<?= $currentPage == 'intelligenceType.php' ? '#type' : 'intelligenceType.php#type'; ?>"
+                <a href="<?= $currentPage == 'statistik_tes.php' ? '#type' : 'statistik_tes.php#type'; ?>"
                     class="text-gray-700 hover:text-primary-500 font-semibold transition-colors duration-300 relative after:absolute after:bottom-0 after:left-0 after:bg-primary-500 after:h-0.5 after:w-0 hover:after:w-full after:transition-all after:duration-300">
                     Statistik Tes
                 </a>

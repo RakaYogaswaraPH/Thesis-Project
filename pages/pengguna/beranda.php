@@ -1,67 +1,83 @@
 <?php
 include '../../config/config.php';
 session_start();
+
 if (!isset($_SESSION['pengguna'])) {
     header("Location: ../../login.php");
     exit;
 }
-function getRiwayatTesByUserId(mysqli $conn, int $user_id): array
-{
-    $sql = "SELECT nilai_cpi, tipe_kecerdasan, tanggal_tes 
-            FROM hasil_cpi 
-            WHERE user_id = ? 
-            ORDER BY tanggal_tes DESC 
-            LIMIT 2";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $user_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
 
-    $riwayat = [];
-    while ($row = $result->fetch_assoc()) {
-        $riwayat[] = $row;
+$pengguna = getPenggunaById($_SESSION['pengguna']['id']);
+$user_id = $pengguna['user_id'];
+
+/**
+ * Ambil semua hasil tes CPI berdasarkan user_id
+ */
+function getRiwayatTesByUserId($connect, $userId, $limit = 0)
+{
+    $sql = "SELECT nilai_cpi, kategori_iq, tipe_kecerdasan, tanggal_tes 
+            FROM hasil_cpi 
+            WHERE user_id = $userId 
+            ORDER BY tanggal_tes DESC";
+
+    if ($limit > 0) {
+        $sql .= " LIMIT $limit";
     }
 
+    $result = mysqli_query($connect, $sql);
+    $riwayat = [];
+    while ($row = mysqli_fetch_assoc($result)) {
+        $riwayat[] = $row;
+    }
     return $riwayat;
 }
 
-function getStatistikTes($connect, $user_id)
+
+/**
+ * Hitung statistik dari hasil tes
+ */
+function hitungStatistikTes(array $riwayatTes): array
 {
-    $query = "SELECT 
-                COUNT(*) AS total_tes,
-                ROUND(AVG(nilai_cpi), 0) AS rata_rata_nilai,
-                tipe_kecerdasan
-            FROM hasil_cpi
-            WHERE user_id = ?
-            GROUP BY tipe_kecerdasan
-            ORDER BY COUNT(*) DESC
-            LIMIT 1";
+    $totalTes = count($riwayatTes);
+    $nilaiTotal = 0;
+    $nilaiTertinggi = 0;
+    $tipeCount = [];
 
-    $stmt = $connect->prepare($query);
-    $stmt->bind_param("i", $user_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
+    foreach ($riwayatTes as $tes) {
+        $nilai = $tes['nilai_cpi'];
+        $nilaiTotal += $nilai;
+        if ($nilai > $nilaiTertinggi) {
+            $nilaiTertinggi = $nilai;
+        }
 
-    $data = [
-        'total' => 0,
-        'rata_rata' => 0,
-        'tipe_terbanyak' => 'Belum Ada'
-    ];
-
-    if ($row = $result->fetch_assoc()) {
-        $data['total'] = (int)$row['total_tes'];
-        $data['rata_rata'] = (int)$row['rata_rata_nilai'];
-        $data['tipe_terbanyak'] = $row['tipe_kecerdasan'];
+        $tipe = $tes['tipe_kecerdasan'];
+        $tipeCount[$tipe] = ($tipeCount[$tipe] ?? 0) + 1;
     }
 
-    return $data;
+    $rataRata = $totalTes > 0 ? round($nilaiTotal / $totalTes, 2) : 0;
+    arsort($tipeCount);
+    $tipePalingSering = $totalTes > 0 ? array_key_first($tipeCount) : '-';
+
+    return [
+        'total' => $totalTes,
+        'rata_rata' => $rataRata,
+        'tertinggi' => $nilaiTertinggi,
+        'tipe_terbanyak' => $tipePalingSering
+    ];
 }
 
-$pengguna = getPenggunaById($_SESSION['pengguna']['id']);
-$statistik = getStatistikTes($connect, $pengguna['user_id']);
-$riwayatTes = getRiwayatTesByUserId($connect, $_SESSION['pengguna']['id']);
+// 🔁 Panggil fungsi
+$riwayatTes = getRiwayatTesByUserId($connect, $user_id);
+$statistik = hitungStatistikTes($riwayatTes);
+
+// 🔧 Gunakan variabel berikut di tampilan HTML
+$totalTes = $statistik['total'];
+$rataRata = $statistik['rata_rata'];
+$nilaiTertinggi = $statistik['tertinggi'];
+$tipePalingSering = $statistik['tipe_terbanyak'];
 $greeting = getGreeting();
 ?>
+
 
 <!DOCTYPE html>
 <html lang="id">
@@ -168,7 +184,12 @@ $greeting = getGreeting();
 
                 <div class="space-y-4">
                     <?php if (count($riwayatTes) > 0): ?>
-                        <?php foreach ($riwayatTes as $tes): ?>
+                        <?php
+                        $maxRiwayat = 2;
+                        $count = 0;
+                        foreach ($riwayatTes as $tes):
+                            if ($count >= $maxRiwayat) break;
+                        ?>
                             <div class="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-4 border border-purple-100">
                                 <div class="flex justify-between items-start mb-2">
                                     <span class="font-medium text-gray-800"><?= htmlspecialchars($tes['tipe_kecerdasan']) ?></span>
@@ -179,11 +200,15 @@ $greeting = getGreeting();
                                     Tanggal: <?= date('d M Y', strtotime($tes['tanggal_tes'])) ?>
                                 </p>
                             </div>
-                        <?php endforeach; ?>
+                        <?php
+                            $count++;
+                        endforeach;
+                        ?>
                     <?php else: ?>
                         <p class="text-gray-600 text-sm">Belum ada riwayat tes yang tersedia.</p>
                     <?php endif; ?>
                 </div>
+
 
 
                 <a href="riwayat_tes.php"><button class="w-full mt-6 bg-purple-500 hover:bg-purple-600 text-white font-medium py-3 px-6 rounded-xl transition-colors duration-200">

@@ -132,7 +132,7 @@ foreach ($bulanData as $bulan => $total) {
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" charset="utf-8"></script>
     <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
-    <script src="../../src//js/modal.js"></script>
+    <script src="../../src/js/modal.js"></script>
     <script>
         const bulanLabels = <?= json_encode($labels) ?>;
         const dataTesPerBulan = <?= json_encode($data_tes) ?>;

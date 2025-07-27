@@ -1,6 +1,5 @@
 <?php
 include '../../config/config.php';
-include '../../config/request.php';
 session_start();
 if (!isset($_SESSION['admin'])) {
   header("Location: ../../login.php");
@@ -454,6 +453,11 @@ $pengguna = $_SESSION['admin'];
       </form>
     </div>
   </div>
+
+  <script src="../../src/js/sweetalert2.all.min.js"></script>
+  <?php
+  include '../../config/request.php';
+  ?>
 
 </body>
 

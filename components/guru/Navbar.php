@@ -112,7 +112,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                     <a
                         href="<?php echo $currentPage == 'ranking_tes.php' ? 'javascript:void(0);' : './ranking_tes.php'; ?>"
                         class="text-sm uppercase py-3 font-bold block <?php echo $currentPage == 'ranking_tes.php' ? 'text-secondary-500 hover:text-secondary-600' : 'text-blueGray-700 hover:text-blueGray-500'; ?>">
-                        <i class="fas fa-chart-bar mr-2 text-sm <?php echo $currentPage == 'ranking_tes.php' ? 'opacity-75' : 'text-blueGray-300'; ?>"></i> Statistik Tes
+                        <i class="fas fa-chart-bar mr-2 text-sm <?php echo $currentPage == 'ranking_tes.php' ? 'opacity-75' : 'text-blueGray-300'; ?>"></i> Ranking Tes
                     </a>
                 </li>
 

@@ -1,7 +1,7 @@
 <?php
 session_start();
 include './config/config.php';
-include './config/request.php';
+
 ?>
 
 <!DOCTYPE html>
@@ -18,6 +18,7 @@ include './config/request.php';
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="src/js/sweetalert2.all.min.js"></script>
 </head>
 
 <body class="font-[fredoka] bg-gradient-to-br from-orange-400 to-teal-400 min-h-screen">
@@ -138,6 +139,10 @@ include './config/request.php';
 
         });
     </script>
+    <script src="src/js/sweetalert2.all.min.js"></script>
+    <?php
+    include './config/request.php';
+    ?>
 </body>
 
 </html>

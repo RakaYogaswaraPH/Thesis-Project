@@ -66,7 +66,6 @@ $riwayatTes = getRiwayatTesByUserId($connect, $user_id);
                             <th class="px-4 py-3 font-semibold">Tanggal Tes</th>
                             <th class="px-4 py-3 font-semibold">Tipe Kecerdasan</th>
                             <th class="px-4 py-3 font-semibold">Skor</th>
-                            <th class="px-4 py-3 font-semibold">Status</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-purple-100">
@@ -81,7 +80,6 @@ $riwayatTes = getRiwayatTesByUserId($connect, $user_id);
                                     <td class="px-4 py-3"><?= date('d M Y, H:i', strtotime($tes['tanggal_tes'])) ?></td>
                                     <td class="px-4 py-3"><?= htmlspecialchars($tes['tipe_kecerdasan']) ?></td>
                                     <td class="px-4 py-3 font-semibold"><?= round($tes['nilai_cpi']) ?></td>
-                                    <td class="px-4 py-3 text-green-600 font-medium">Selesai</td>
                                 </tr>
                             <?php endforeach; ?>
                         <?php endif; ?>

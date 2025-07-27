@@ -136,6 +136,55 @@ $pengguna = $_SESSION['guru'];
         <?php include '../../components/admin/footer.php'; ?>
       </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+      document.querySelector('form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        Swal.fire({
+          title: 'Simpan perubahan?',
+          text: "Pastikan data yang kamu ubah sudah benar.",
+          icon: 'question',
+          showCancelButton: true,
+          confirmButtonText: 'Ya, simpan',
+          cancelButtonText: 'Batal',
+          reverseButtons: true
+        }).then((result) => {
+          if (result.isConfirmed) {
+            e.target.submit();
+          } else {
+            Swal.fire({
+              icon: 'info',
+              title: 'Dibatalkan',
+              text: 'Perubahan tidak jadi disimpan.',
+              timer: 2000,
+              showConfirmButton: false
+            });
+          }
+        });
+      });
+    </script>
+
+
+    <?php if (isset($_SESSION['flash_message'])): ?>
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+      <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          Swal.fire({
+            icon: '<?= $_SESSION['flash_message']['icon'] ?>',
+            title: '<?= $_SESSION['flash_message']['title'] ?>',
+            text: '<?= $_SESSION['flash_message']['message'] ?>',
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true
+          });
+        });
+      </script>
+      <?php unset($_SESSION['flash_message']); ?>
+    <?php endif; ?>
+
+
+
 </body>
 
 </html>

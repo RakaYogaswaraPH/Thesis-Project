@@ -194,7 +194,10 @@ include './config/config.php';
             }
         }
     </script>
-
+    <script src="src/js/sweetalert2.all.min.js"></script>
+    <?php
+    include './config/request.php';
+    ?>
 </body>
 
 </html>
