@@ -133,10 +133,10 @@ $greeting = getGreeting();
                 </div>
             </div>
 
-            <button class="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-bold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 flex items-center justify-center space-x-2">
+            <a href="tes_kecerdasan.php"><button class="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-bold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 flex items-center justify-center space-x-2">
                 <span>Mulai Tes Sekarang</span>
                 <i class="fa-solid fa-arrow-right text-white text-base"></i>
-            </button>
+            </button></a>
 
         </div>
 

@@ -155,8 +155,8 @@ include './config/config.php';
                     <div class="flex items-start space-x-3">
                         <input type="checkbox" id="terms" class="w-4 h-4 mt-1" required>
                         <label for="terms" class="text-sm text-gray-600 leading-relaxed">
-                            Saya setuju dengan <a href="#" class="text-teal-500 font-semibold">Syarat & Ketentuan</a>
-                            dan <a href="#" class="text-teal-500 font-semibold">Kebijakan Privasi</a>
+                            Saya setuju dengan <a href="terms_condition.php" class="text-teal-500 font-semibold">Syarat & Ketentuan</a>
+                            dan <a href="terms_condition.php" class="text-teal-500 font-semibold">Kebijakan Privasi</a>
                         </label>
                     </div>
 

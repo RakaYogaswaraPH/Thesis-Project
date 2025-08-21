@@ -182,7 +182,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["register"])) {
         title: 'Pendaftaran Berhasil!',
         text: 'Selamat datang $nama_anak!'
     }).then(() => {
-        window.location.href = 'pages/pengguna/home.php';
+        window.location.href = 'pages/pengguna/beranda.php';
     });
     </script>";
     exit;

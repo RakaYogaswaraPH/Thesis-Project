@@ -8,18 +8,20 @@ if (!isset($_SESSION['pengguna'])) {
 $pengguna = getPenggunaById($_SESSION['pengguna']['id']);
 
 /** Ambil semua data soal (id dan kriteria) */
-function fetchSoalWithKriteria(mysqli $connect): array {
-    $sql = "SELECT id, kriteria FROM soal_cpi";
+function fetchSoalWithKriteria(mysqli $connect): array
+{
+    $sql = "SELECT soal_id, kriteria FROM soal_cpi";
     $result = $connect->query($sql);
     $data = [];
     while ($row = $result->fetch_assoc()) {
-        $data[$row['id']] = $row['kriteria'];
+        $data[$row['soal_id']] = $row['kriteria'];
     }
     return $data;
 }
 
 /** Fungsi kategori IQ */
-function kategoriIQ($cpi) {
+function kategoriIQ($cpi)
+{
     if ($cpi >= 150) return "Superior";
     if ($cpi >= 135) return "Di Atas Rata-rata";
     if ($cpi >= 120) return "Rata-rata (Normal)";
@@ -27,31 +29,75 @@ function kategoriIQ($cpi) {
     return "Memerlukan Dukungan Tambahan";
 }
 
-/** Fungsi tipe anak */
-function tipeAnak($nilai_kriteria) {
-    if (empty($nilai_kriteria)) return "Tidak Terdefinisi";
-    arsort($nilai_kriteria);
-    $top = key($nilai_kriteria);
+/** Fungsi menentukan tipe anak berdasarkan sub_index */
+function tipeAnak($sub_index)
+{
+    $maxKriteria = array_keys($sub_index, max($sub_index))[0];
 
-    switch ($top) {
+    switch ($maxKriteria) {
         case 'Visual-Spasial':
-            return 'Si Imajinatif';
+            return "Si Imajinatif";
         case 'Linguistik':
-            return 'Si Pencerita';
+            return "Si Pencerita";
         case 'Pemecahan Masalah':
-            return 'Si Cerdik';
+            return "Si Cerdik";
         case 'Logika-Matematika':
-            return 'Si Logis Kecil';
+            return "Si Logis Kecil";
         default:
-            return 'Memerlukan Dukungan Tambahan';
+            return "Belum Terdefinisi";
     }
 }
 
+/** Data detail tipe anak */
+function getTipeAnak($tipe)
+{
+    $data = [
+        "Si Imajinatif" => [
+            "deskripsi" => "Anak yang penuh ide dan daya khayal. Mereka suka menggambar, membuat cerita, atau membayangkan sesuatu dengan bebas.",
+            "aktivitas" => [
+                "Ajak anak membuat cerita bergambar",
+                "Sediakan waktu untuk bermain peran atau drama kecil",
+                "Berikan media seperti krayon, tanah liat, atau cat air"
+            ],
+            "rencana" => "Di rumah, dukung imajinasi anak dengan memberi kebebasan bereksplorasi tanpa takut salah. Orang tua bisa jadi pendengar yang sabar ketika anak bercerita."
+        ],
+        "Si Pencerita" => [
+            "deskripsi" => "Anak dengan kemampuan verbal yang kuat. Mereka senang bercerita, berbicara, dan menyampaikan ide dengan kata-kata.",
+            "aktivitas" => [
+                "Bacakan buku cerita lalu diskusikan bersama",
+                "Ajak anak membuat buku harian sederhana",
+                "Dorong anak untuk bercerita tentang pengalaman sehari-hari"
+            ],
+            "rencana" => "Orang tua bisa melatih anak dengan rutin berbincang santai di rumah, sekaligus memperkenalkan kosakata baru dengan cara alami."
+        ],
+        "Si Cerdik" => [
+            "deskripsi" => "Anak yang cepat tanggap, kreatif dalam memecahkan masalah, dan punya rasa ingin tahu tinggi.",
+            "aktivitas" => [
+                "Ajak bermain puzzle atau teka-teki logika",
+                "Berikan eksperimen sederhana di rumah",
+                "Biarkan anak mencoba menemukan solusi sendiri"
+            ],
+            "rencana" => "Dukung anak dengan memberikan tantangan ringan sehari-hari, misalnya menyusun mainan, merakit lego, atau membantu hal kecil di rumah."
+        ],
+        "Si Logis Kecil" => [
+            "deskripsi" => "Anak yang suka berpikir sistematis dan teratur. Mereka senang berhitung, mengurutkan, dan mencari pola.",
+            "aktivitas" => [
+                "Bermain matematika sederhana seperti berhitung benda",
+                "Latihan mengelompokkan barang berdasarkan warna/ukuran",
+                "Mengajarkan permainan strategi sederhana"
+            ],
+            "rencana" => "Orang tua bisa mendampingi anak dengan permainan berhitung sehari-hari, misalnya menghitung buah di meja atau menyusun barang di rak."
+        ],
+    ];
+
+    return $data[$tipe] ?? null;
+}
 
 // Jawaban dari form
 $jawaban_user = $_POST['jawaban'] ?? [];
 if (empty($jawaban_user)) {
-    echo "Belum ada jawaban yang dipilih."; exit;
+    echo "Belum ada jawaban yang dipilih.";
+    exit;
 }
 
 // Ambil kriteria untuk setiap soal
@@ -88,17 +134,22 @@ $total_cpi = round($total_cpi * 30, 0);
 $kategori_iq = kategoriIQ($total_cpi);
 $tipe_kecerdasan = tipeAnak($sub_index);
 
-// Simpan hasil ke database
+// Simpan hasil ke database (hanya nama tipe aja)
 $user_id = $_SESSION['pengguna']['id'];
 $stmt = $connect->prepare("INSERT INTO hasil_cpi (user_id, nilai_cpi, kategori_iq, tipe_kecerdasan) VALUES (?, ?, ?, ?)");
 if ($stmt) {
     $stmt->bind_param("idss", $user_id, $total_cpi, $kategori_iq, $tipe_kecerdasan);
     $stmt->execute();
 }
+
+// Ambil detail tipe anak (buat ditampilkan)
+$tipeData = getTipeAnak($tipe_kecerdasan);
 ?>
+
 
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <title>Hasil Tes Kecerdasan | PPMH</title>
@@ -136,6 +187,31 @@ if ($stmt) {
                 <p class="text-gray-600">Tipe Anak: <span class="italic font-medium"><?= $tipe_kecerdasan ?></span></p>
             </div>
 
+            <div class="mt-10 bg-white border border-gray-200 p-6 rounded-xl shadow-md">
+                <h2 class="text-2xl font-bold text-emerald-700 mb-3">
+                    <?= $tipe_kecerdasan ?>
+                </h2>
+
+                <?php if ($tipeData): ?>
+                    <p class="text-gray-700 mb-6">
+                        <?= $tipeData['deskripsi'] ?>
+                    </p>
+
+                    <h3 class="font-semibold text-lg text-emerald-600 mb-2">Aktivitas yang Disarankan:</h3>
+                    <ul class="list-disc list-inside text-gray-700 mb-6">
+                        <?php foreach ($tipeData['aktivitas'] as $aktivitas): ?>
+                            <li><?= $aktivitas ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+
+                    <h3 class="font-semibold text-lg text-emerald-600 mb-2">Rencana Belajar di Rumah:</h3>
+                    <p class="text-gray-700"><?= $tipeData['rencana'] ?></p>
+                <?php else: ?>
+                    <p class="text-gray-500">Belum ada detail untuk tipe ini.</p>
+                <?php endif; ?>
+            </div>
+
+
             <div class="text-center mt-10">
                 <a href="tes_kecerdasan.php" class="inline-block bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-bold py-3 px-6 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200">
                     Coba Tes Lagi <i class="fa-solid fa-rotate-right ml-2"></i>
@@ -148,4 +224,7 @@ if ($stmt) {
         </footer>
     </div>
 </body>
+
 </html>
+<script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
+<script src="../../src/js/modal.js"></script>
